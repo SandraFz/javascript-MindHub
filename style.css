@@ -4,6 +4,15 @@
     box-sizing: border-box;
 }
 
+p, h3{
+    font-size: 1rem;
+}
+
+footer>h6{
+    font-size: 1.5rem;
+    font-weight:600;
+}
+
 nav img {
     min-width: 150px;
 }
@@ -16,15 +25,70 @@ nav img {
     min-width: 100px;
 }
 
-.figure-card{
-    width: 90%;
-    height: 100px;
-    background-image: url(./assets/Cinema.jpg);
-    background-size: cover;
-    background-position: center;
-    box-shadow: -5px -5px 8px rgb(10, 10, 10, .5) ;
+.content-card-group{
+    width: 20vw;
+    max-width: 300px;
 }
 
+.figure-card{
+    width: 90%;
+    height: 200px;
+    background-size:cover;
+    background-position: center;
+    box-shadow: -5px -5px 5px;
+}
+
+.figure-card1{
+    background-image: url(./assets/Cinema.jpg);
+}
+
+.figure-card2{
+    background-image: url(./assets/Costume_Party.jpg);
+}
+
+.figure-card3{
+    background-image: url(./assets/Food_fair.jpg);
+}
+
+.figure-card4{
+    background-image: url(./assets/Marathon.jpg);
+}
+
+.figure-card5{
+    background-image: url(./assets/Museum_Tour.jpg);
+}
+
+.figure-card6{
+    background-image: url(./assets/Music_Concert.jpg);
+}
+
+.content-card-group img{
+    width: 90%;
+}
+
+.button-card-group{
+    background-color: blue!important;
+}
+
+.button-card-group>button{
+    width: 100px;
+    box-shadow: -5px -5px 5px;
+}
+
+footer{
+    height: 5rem;
+}
+
+.a-redes-logo{
+    object-fit: contain;
+}
+
+.a-redes-logo, .a-redes-logo>img{
+    width: 40px;
+    height: 40px;
+}
+
+/* Media Queries */
 
 @media screen and (min-width:550px) {
     .categories{
@@ -46,14 +110,14 @@ nav img {
         width: 70%!important;
         margin: 1rem auto;
     }
-
-    /* .div-search{
-        width: 30%!important;
-    } */
-    
 }
 
 @media screen and (min-width:992px) {
+
+    h3{
+        font-size: 1.5rem;
+    }
+
     nav li {
         width: 100px;
         height: 50px;
@@ -70,9 +134,13 @@ nav img {
         align-items: center;
     }
 
-    /* .categories{
-        flex-direction: row!important;
+.button-card-group{
+    flex-direction: row!important;
+    justify-content: space-between;
+}
 
-    } */
+.content-card-group{
+    height: calc(20vw*1.5);
+}
 
 }
