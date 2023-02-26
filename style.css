@@ -30,7 +30,7 @@ nav img {
     height: 200px;
     background-size:cover;
     background-position: center;
-    box-shadow: -5px -5px 5px;
+    box-shadow: -5px -5px 8px 5px rgba(184, 184, 184, .8);
 }
 
 .figure-card1{
@@ -67,7 +67,7 @@ nav img {
 
 .button-card-group>button{
     width: 100px;
-    box-shadow: -5px -5px 5px;
+    box-shadow: -3px -3px 9px 2px rgba(184, 184, 184, .8);
 }
 
 footer{
@@ -92,6 +92,27 @@ footer>h6{
     height: 70vh;
 }
 
+tr, th, td{
+    border: 1px solid black;
+    padding:8px;
+}
+
+th[colspan="3"]{
+    font-size: 1.2rem;
+}
+
+th:not(th[colspan="3"]){
+    font-weight: 600;
+}
+
+.figure-detail{
+    height:300px;
+    background-image: url(./assets/Costume_Party.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: blue;
+}
+
 /* Media Queries */
 
 @media screen and (min-width:550px) {
@@ -107,6 +128,22 @@ footer>h6{
     .contact-form{
         width: 50%!important;
         max-width: 500px;
+    }
+
+    .tarjeta{
+        width: 70%!important;
+        max-width: 600px;
+        border: 1px solid black;
+    }
+
+    .figure-detail{
+        box-shadow: -5px -5px 8px 5px rgba(184, 184, 184, .8);
+
+    }
+
+    .figure-detail, .text-detail{
+        width: 45%!important;
+        margin: 1rem auto!important;
     }
 }
 
@@ -152,4 +189,6 @@ footer>h6{
     height: calc(20vw*1.5);
 }
 
+table{
+width: 80%;}
 }
