@@ -4,163 +4,197 @@
     box-sizing: border-box;
 }
 
-p, h3{
+:root {
+    --hard-color: rgb(133, 88, 111);
+    --soft-color: rgb(248, 236, 209);
+    --shadow-gral: -5px -5px 8px 5px rgba(127, 127, 127, .8);
+    --shadow-btn: -3px -3px 9px 2px rgba(127, 127, 127, .8);
+}
+
+p,
+h3 {
     font-size: 1rem;
+}
+
+header {
+    background-color: var(--soft-color);
+}
+
+.main-title-section,
+footer {
+    background-color: var(--hard-color);
+    color: var(--soft-color);
+
 }
 
 nav img {
     min-width: 150px;
 }
 
-.categories>.checkboxes{
-    flex-wrap:wrap;
+nav li {
+    background-color: var(--hard-color) !important;
 }
 
-.checkboxes>label{
+nav a {
+    color: var(--soft-color) !important;
+
+}
+
+.categories>.checkboxes {
+    flex-wrap: wrap;
+}
+
+.checkboxes>label {
     min-width: 100px;
 }
 
-.content-card-group{
+.content-card-group {
     width: 20vw;
     max-width: 300px;
+    background-color: #F8ECD1;
 }
 
-.figure-card{
+.figure-card {
     width: 90%;
     height: 200px;
-    background-size:cover;
+    background-size: cover;
     background-position: center;
-    box-shadow: -5px -5px 8px 5px rgba(184, 184, 184, .8);
+    box-shadow: var(--shadow-gral);
 }
 
-.figure-card1{
+.figure-card1 {
     background-image: url(./assets/Cinema.jpg);
 }
 
-.figure-card2{
+.figure-card2 {
     background-image: url(./assets/Costume_Party.jpg);
 }
 
-.figure-card3{
+.figure-card3 {
     background-image: url(./assets/Food_fair.jpg);
 }
 
-.figure-card4{
+.figure-card4 {
     background-image: url(./assets/Marathon.jpg);
 }
 
-.figure-card5{
+.figure-card5 {
     background-image: url(./assets/Museum_Tour.jpg);
 }
 
-.figure-card6{
+.figure-card6 {
     background-image: url(./assets/Music_Concert.jpg);
 }
 
-.content-card-group img{
+.content-card-group img {
     width: 90%;
 }
 
-.button-card-group{
-    background-color: blue!important;
-}
-
-.button-card-group>button{
+.button-card-group>button,
+input[type="submit"] {
+    background-color: var(--hard-color);
+    color: var(--soft-color);
     width: 100px;
-    box-shadow: -3px -3px 9px 2px rgba(184, 184, 184, .8);
+    box-shadow: var(--shadow-btn);
 }
 
-footer{
+footer {
     height: 5rem;
 }
 
-.a-redes-logo{
+.a-redes-logo {
     object-fit: contain;
 }
 
-.a-redes-logo, .a-redes-logo>img{
+.a-redes-logo,
+.a-redes-logo>img {
     width: 40px;
     height: 40px;
 }
 
-footer>h6{
+footer>h6 {
     font-size: 1.5rem;
-    font-weight:600;
-}
-
-.contact-container-form{
-    height: 70vh;
-}
-
-tr, th, td{
-    border: 1px solid black;
-    padding:8px;
-}
-
-th[colspan="3"]{
-    font-size: 1.2rem;
-}
-
-th:not(th[colspan="3"]){
     font-weight: 600;
 }
 
-.figure-detail{
-    height:300px;
+.contact-container-form {
+    height: 70vh;
+}
+
+.tr-header {
+    background-color: var(--hard-color);
+    color: var(--soft-color);
+}
+
+tr,
+th,
+td {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+th[colspan="3"] {
+    font-size: 1.2rem;
+}
+
+th:not(th[colspan="3"]) {
+    font-weight: 600;
+}
+
+.figure-detail {
+    height: 300px;
     background-image: url(./assets/Costume_Party.jpg);
     background-repeat: no-repeat;
     background-size: cover;
-    background-color: blue;
+    box-shadow: var(--shadow-gral);
 }
 
 /* Media Queries */
 
 @media screen and (min-width:550px) {
-    .categories{
+    .categories {
         align-items: center;
     }
 
-    .checkboxes{
-        flex-direction: row!important;
+    .checkboxes {
+        flex-direction: row !important;
         max-width: 80%;
     }
 
-    .contact-form{
-        width: 50%!important;
+    .contact-form {
+        width: 50% !important;
         max-width: 500px;
     }
 
-    .tarjeta{
-        width: 70%!important;
+    .tarjeta {
+        width: 70% !important;
         max-width: 600px;
         border: 1px solid black;
     }
 
-    .figure-detail{
-        box-shadow: -5px -5px 8px 5px rgba(184, 184, 184, .8);
+    .figure-detail {}
 
-    }
-
-    .figure-detail, .text-detail{
-        width: 45%!important;
-        margin: 1rem auto!important;
+    .figure-detail,
+    .text-detail {
+        width: 45% !important;
+        margin: 1rem auto !important;
     }
 }
 
 @media screen and (min-width:725px) {
-    .categories{
-        flex-direction:row!important;
+    .categories {
+        flex-direction: row !important;
     }
 
-    .checkboxes{
-        width: 70%!important;
+    .checkboxes {
+        width: 70% !important;
         margin: 1rem auto;
     }
 }
 
 @media screen and (min-width:992px) {
 
-    h3{
+    h3 {
         font-size: 1.5rem;
     }
 
@@ -180,15 +214,16 @@ th:not(th[colspan="3"]){
         align-items: center;
     }
 
-.button-card-group{
-    flex-direction: row!important;
-    justify-content: space-between;
-}
+    .button-card-group {
+        flex-direction: row !important;
+        justify-content: space-between;
+    }
 
-.content-card-group{
-    height: calc(20vw*1.5);
-}
+    .content-card-group {
+        height: calc(20vw*1.5);
+    }
 
-table{
-width: 80%;}
+    table {
+        width: 80%;
+    }
 }
