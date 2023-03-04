@@ -1,2 +1,2 @@
-let nextEvents = createCard(upcomingEvents, upcomingEventsCards)
-console.log(nextEvents)
+setCards(upcomingEvents, upcomingEventsCards, "cards-group")
+

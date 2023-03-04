@@ -1,4 +1,2 @@
-
-
-console.log(createCard(allEvents, allEventsCards))
+setCards(allEvents, allEventsCards, "cards-group")
 

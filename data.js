@@ -232,3 +232,13 @@ function createCard(array, newArray)
     return newArray
 
 }
+
+function setCards(array, newArray, id)
+{
+    let listCard = createCard(array, newArray)
+    // console.table(listCard)
+    let cardsGroup = document.getElementById(id)
+    // console.table(cardsGroup);
+    cardsGroup.innerHTML=listCard
+    
+}

@@ -15,7 +15,7 @@
 
 main
 {
-    min-height: calc(105vh - var(--height-ext-comp)*3);
+    min-height: calc(90vh - var(--height-ext-comp)*3);
 }
 
 p,
@@ -135,7 +135,7 @@ footer>h6 {
 }
 
 .contact-container-form {
-    height: 70vh;
+    height: 68vh;
 }
 
 .tr-header {
@@ -187,7 +187,7 @@ th:not(th[colspan="3"]) {
     .tarjeta {
         width: 70% !important;
         max-width: 600px;
-        border: 1px solid black;
+        border: 1px solid var(--hard-color);
     }
 
     .figure-detail,
