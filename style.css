@@ -22,10 +22,11 @@ header {
 }
 
 .main-title-section,
+.main-title-section>a,
 footer {
     background-color: var(--hard-color);
     color: var(--soft-color);
-
+    text-decoration: none;
 }
 
 nav img {
