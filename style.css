@@ -10,7 +10,8 @@
     --shadow-gral: -5px -5px 8px 5px rgba(127, 127, 127, .8);
     --shadow-btn: -3px -3px 9px 2px rgba(127, 127, 127, .8);
     --inputs: rgb(206, 212, 218);
-    --height-extreme-components: 8vh!important;
+    --height-extreme-components-sm: 8vh;
+    /* --height-extreme-components-big: 10vh; */
 }
 
 p,
@@ -18,13 +19,18 @@ h3 {
     font-size: 1rem;
 }
 
-header, .main-title-section {
-    height: var(--height-extreme-components);
+header,
+.main-title-section {
+    height: var(--height-extreme-components-sm);
 }
 
-
-header, nav {
+header,
+nav {
     background-color: var(--soft-color);
+}
+
+main {
+    margin-bottom: calc(var(--height-extreme-components-sm) + 1rem);
 }
 
 .main-title-section,
@@ -47,8 +53,8 @@ nav a {
     color: var(--hard-color) !important;
 }
 
-h1{
-    margin-bottom:0%;
+h1 {
+    margin-bottom: 0%;
 }
 
 .categories>.checkboxes {
@@ -59,12 +65,12 @@ h1{
     min-width: 100px;
 }
 
-.search-button{
-    border:1px solid var(--inputs);
+.search-button {
+    border: 1px solid var(--inputs);
 }
 
-.div-search>button:hover{
-    background-color: var(--soft-color)!important;
+.div-search>button:hover {
+    background-color: var(--soft-color) !important;
     border-color: var(--hard-color);
 }
 
@@ -119,12 +125,12 @@ input[type="submit"] {
     box-shadow: var(--shadow-btn);
 }
 
-footer{
-    position:fixed;
+footer {
+    position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
-    height: var(--height-extreme-components);
+    height: var(--height-extreme-components-sm);
 }
 
 .a-redes-logo {
@@ -177,7 +183,7 @@ th:not(th[colspan="3"]) {
 /* Media Queries */
 
 @media screen and (min-width:550px) {
-    
+
     .categories {
         align-items: center;
     }
@@ -218,6 +224,17 @@ th:not(th[colspan="3"]) {
 
 @media screen and (min-width:992px) {
 
+    header,
+    .main-title-section,
+    footer {
+        height: var(--height-extreme-components-big);
+    }
+
+    /* .main-title-section{
+        padding: 1rem auto;
+        height: var(--height-extreme-components-big)!important;
+    } */
+
     h3 {
         font-size: 1.5rem;
     }
@@ -228,7 +245,7 @@ th:not(th[colspan="3"]) {
         display: flex !important;
         justify-content: center;
         text-align: center;
-        background-color: var(--hard-color)!important;
+        background-color: var(--hard-color) !important;
         border-radius: 5px;
     }
 
