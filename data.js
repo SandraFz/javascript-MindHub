@@ -240,5 +240,6 @@ function setCards(array, newArray, id)
     let cardsGroup = document.getElementById(id)
     // console.table(cardsGroup);
     cardsGroup.innerHTML=listCard
-    
+    // cardsGroup.replaceChild(id, newArray)
+
 }

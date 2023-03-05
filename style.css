@@ -10,18 +10,18 @@
     --shadow-gral: -5px -5px 8px 5px rgba(127, 127, 127, .8);
     --shadow-btn: -3px -3px 9px 2px rgba(127, 127, 127, .8);
     --inputs: rgb(206, 212, 218);
-    --height-ext-comp: 5rem;
-}
-
-main
-{
-    min-height: calc(90vh - var(--height-ext-comp)*3);
+    --height-extreme-components: 8vh!important;
 }
 
 p,
 h3 {
     font-size: 1rem;
 }
+
+header, .main-title-section {
+    height: var(--height-extreme-components);
+}
+
 
 header, nav {
     background-color: var(--soft-color);
@@ -45,6 +45,10 @@ nav li {
 
 nav a {
     color: var(--hard-color) !important;
+}
+
+h1{
+    margin-bottom:0%;
 }
 
 .categories>.checkboxes {
@@ -115,8 +119,12 @@ input[type="submit"] {
     box-shadow: var(--shadow-btn);
 }
 
-footer, header, .main-title-section {
-    height: var(--height-ext-comp);
+footer{
+    position:fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: var(--height-extreme-components);
 }
 
 .a-redes-logo {
