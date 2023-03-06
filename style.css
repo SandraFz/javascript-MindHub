@@ -125,12 +125,19 @@ input[type="submit"] {
     box-shadow: var(--shadow-btn);
 }
 
-footer {
+footer:not(.footer) {
     position: fixed;
+}
+
+footer:not(.footer) {
     left: 0;
     bottom: 0;
     width: 100%;
     height: var(--height-extreme-components-sm);
+}
+
+.footer1{
+    position: sticky!important;
 }
 
 .a-redes-logo {
@@ -149,7 +156,7 @@ footer>h6 {
 }
 
 .contact-container-form {
-    height: 68vh;
+    height: auto;
 }
 
 .tr-header {
@@ -202,6 +209,7 @@ th:not(th[colspan="3"]) {
         width: 70% !important;
         max-width: 600px;
         border: 1px solid var(--hard-color);
+        height: 100%;
     }
 
     .figure-detail,
@@ -229,11 +237,6 @@ th:not(th[colspan="3"]) {
     footer {
         height: var(--height-extreme-components-big);
     }
-
-    /* .main-title-section{
-        padding: 1rem auto;
-        height: var(--height-extreme-components-big)!important;
-    } */
 
     h3 {
         font-size: 1.5rem;
