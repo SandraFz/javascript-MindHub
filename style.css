@@ -61,10 +61,6 @@ h1 {
     flex-wrap: wrap;
 }
 
-.checkboxes>label {
-    min-width: 100px;
-}
-
 .search-button {
     border: 1px solid var(--inputs);
 }

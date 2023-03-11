@@ -1,12 +1,21 @@
 //Clasificación de eventos por la fecha
 
 let currentDate = data.currentDate;
+
 let allEvents = data.events;
 let allEventsCards = [];
+
 let upcomingEvents = [];
 let upcomingEventsCards = [];
+
 let pastEvents = [];
 let pastEventsCards = [];
+
+let allCategoriesByEvent=[]
+let categories=[]
+let categoryCheckboxes=[]
+
+//Clasifica los eventos en futuro y pasado
 
 for(const eventItem of allEvents)
 {
@@ -20,13 +29,38 @@ for(const eventItem of allEvents)
     }
 }
 
-  // console.log(data.events)
-  // console.log(data.events[0].name)
-  // console.log(data.events[0].description)
-  // console.log(data.events[0].price)
-  // console.log(data.events[0].description)
-  // console.log(data.events[0].image)
+setCards(allEvents, 
+        allEventsCards, 
+        "cards-group")
 
+filterCategories(allEvents, 
+                allCategoriesByEvent, 
+                categories)
+
+setCheckboxes(categories, 
+            categoryCheckboxes, 
+            "checkboxes")
+
+//Eventos en checkboxes
+
+let padre = document.getElementById("checkboxes")
+let divContainerCheck = padre.querySelectorAll('input')
+let newAOfChild = Array.from(divContainerCheck)
+let selectedCardsFiltered = []
+
+filteredByCheckbox(newAOfChild, 
+                allEvents, 
+                selectedCardsFiltered, 
+                "cards-group")
+
+
+
+
+
+
+
+
+//////////FUNCIONES//////////////////
 //Convierte cada objeto de un array en una card html
 
 function createCard(array, newArray)
@@ -65,12 +99,78 @@ function createCard(array, newArray)
 function setCards(array, newArray, htmlContainerId)
 {
     let cardList = createCard(array, newArray)
-    // console.table(listCard)
     let cardsGroup = document.getElementById(htmlContainerId)
-    // console.table(cardsGroup);
     cardsGroup.innerHTML=cardList.join('')
-    // cardsGroup.replaceChild(id, newArray)
+    // document.replaceChild(cardList, )
 }
 
-setCards(allEvents, allEventsCards, "cards-group")
+//Crea las listas de categorías según sean eventos pasados o futuros
+
+function filterCategories(eventArray, 
+                        allCategoriesArray, 
+                        newCategoriesArray)
+{
+    for(let event of eventArray)
+    {
+        allCategoriesArray.push(event.category)
+    }
+
+    allCategoriesArray.sort()
+
+    for(let i=0; i<allCategoriesArray.length; i++)
+    {
+        if(allCategoriesArray[i]!= allCategoriesArray[i+1])
+        {
+            newCategoriesArray.push(allCategoriesArray[i])
+        }
+    }
+    // console.log(allCategoriesArray)
+    // console.log(newCategoriesArray)
+}
+
+//Convierte cada objeto de un array en una checkboxes html
+
+function createCheckbox(array, newArray)
+{
+  let newCheckbox;
+  for(const element of array)
+  {
+      newCheckbox = `<label for="${element}" class="mx-2">
+                    <input id="${element}" type="checkbox" class="eventCheckbox">
+                    ${element}
+                    </label>`
+      newArray.push(newCheckbox)
+  }
+  return newArray
+}
+
+//Invocación al método createdCheckboxes y seteo al cointainer html, sin comas.
+
+function setCheckboxes(array, newArray, htmlContainerId)
+{
+    let cardList = createCheckbox(array, newArray)
+    let checkGroup = document.getElementById(htmlContainerId)
+    checkGroup.innerHTML=cardList.join('')
+}
+
+//Eventos en checkboxes: previo, capturo el container de los checkboxes, para luego a los checkboxes y los convierto en un array. 
+//En la función, por cada elemento este nuevo array escucho el evento "change". Si el evento ocurre, guardo en una variable un array resultante de filtrar la lista original de eventos, siempre que la categoría del evento sea igual al id del elemento que estoy iterando. Finalmente, invoco el método setCards.
+
+function filteredByCheckbox(elementByListener, 
+                            originalEvents, resultedCardsList, htmlContainerId)
+{
+    elementByListener.forEach(element =>
+    {
+        element.addEventListener("change", (e)=>
+        {
+            let selectedCards = originalEvents.filter(event => event.category == element.id)
+                setCards(selectedCards, 
+                        resultedCardsList, 
+                        htmlContainerId)
+        })
+    })   
+}
+
+
+
 
