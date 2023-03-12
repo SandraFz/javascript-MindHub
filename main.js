@@ -161,15 +161,58 @@ function filteredByCheckbox(elementByListener,
 {
     elementByListener.forEach(element =>
     {
-        element.addEventListener("change", (e)=>
+        element.addEventListener("change", ()=>
         {
-            let selectedCards = originalEvents.filter(event => event.category == element.id)
+            let selectedCards
+            if(element.checked)
+            {
+                selectedCards = originalEvents.filter(event => event.category == element.id)
                 setCards(selectedCards, 
                         resultedCardsList, 
                         htmlContainerId)
+            }
         })
+    
     })   
 }
+
+//Evento en renglón de búsqueda
+let formSearch = document.querySelector('input[type="search"]')
+let button = document.querySelector('button[type="submit"]')
+let selectedByInput = []
+let filtrados = []
+let includes
+
+formSearch.addEventListener("keyup", ()=>
+{
+    
+    for(let i=0; i<=allEvents.length; i++)
+    {
+        let search = formSearch.value.toLowerCase() 
+
+        console.log(search)
+
+        let eventName = allEvents[i].name.toLowerCase()
+        includes = eventName.includes(search)
+        if(includes)
+        {
+            selectedByInput.push(allEvents[i])
+            console.log(selectedByInput)
+        
+        console.log(includes)
+        return selectedByInput
+        }
+    }
+})
+
+button.addEventListener("mousedown", ()=>
+{
+    setCards(selectedByInput, 
+            filtrados, 
+            "cards-group")
+})
+
+
 
 
 
