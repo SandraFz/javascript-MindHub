@@ -84,12 +84,13 @@ function createCard(array, newArray)
           Price $${element.price}
           </small>
 
-          <a href="./details.html" class="btn p-1">
+          <a href="./details.html?id=${element._id}" class="btn p-1">
           more...
           </a>
       </div>
       </div>`
       newArray.push(newCard)
+      console.log(element.id)
   }
   return newArray
 }
@@ -153,8 +154,8 @@ function setCheckboxes(array, newArray, htmlContainerId)
     checkGroup.innerHTML=cardList.join('')
 }
 
-//Eventos en checkboxes: previo, capturo el container de los checkboxes, para luego a los checkboxes y los convierto en un array. 
-//En la función, por cada elemento este nuevo array escucho el evento "change". Si el evento ocurre, guardo en una variable un array resultante de filtrar la lista original de eventos, siempre que la categoría del evento sea igual al id del elemento que estoy iterando. Finalmente, invoco el método setCards.
+// Eventos en checkboxes: previo, capturo el container de los checkboxes, para luego a los checkboxes y los convierto en un array. 
+// En la función, por cada elemento este nuevo array escucho el evento "change". Si el evento ocurre, guardo en una variable un array resultante de filtrar la lista original de eventos, siempre que la categoría del evento sea igual al id del elemento que estoy iterando. Finalmente, invoco el método setCards.
 
 function filteredByCheckbox(elementByListener, 
                             originalEvents, resultedCardsList, htmlContainerId)
@@ -172,9 +173,40 @@ function filteredByCheckbox(elementByListener,
                         htmlContainerId)
             }
         })
-    
     })   
 }
+console.log([document])
+
+// function filteredByCheckbox(elementByListener, 
+//     originalEvents, resultedCardsList, htmlContainerId)
+// {
+// let checkedBox=[]
+// let i = 0
+//     elementByListener.forEach(element =>
+//     {
+//         console.log(elementByListener[i])
+//         element.addEventListener("change", ()=>
+//         {
+//             checkedBox = elementByListener.filter( box => box.checked)
+//             console.log(checkedBox)
+//             let selectedCards
+//             // if(element.checked)
+//             // {
+//             selectedCards = originalEvents.filter(event => event.category == checkedBox[i].id)
+//             setCards(selectedCards, 
+//             resultedCardsList, 
+//             htmlContainerId)
+//             i++
+//             // }
+//             // else
+//             // {
+
+//             // }
+//         })
+
+//     })
+// }
+
 
 //Evento en renglón de búsqueda
 let formSearch = document.querySelector('input[type="search"]')
