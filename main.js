@@ -1,16 +1,10 @@
-//Clasificación de eventos por la fecha
-
 let currentDate = data.currentDate;
 
 let allEvents = data.events;
 let allEventsCards = [];
 
 let upcomingEvents = [];
-let upcomingEventsCards = [];
-
 let pastEvents = [];
-let pastEventsCards = [];
-
 let allCategoriesByEvent=[]
 let categories=[]
 let categoryCheckboxes=[]
@@ -28,17 +22,15 @@ for(const eventItem of allEvents)
         pastEvents.push(eventItem)
     }
 }
+console.log(upcomingEvents)
 
 setCards(allEvents, 
-        allEventsCards, 
         "cards-group")
 
 filterCategories(allEvents, 
-                allCategoriesByEvent, 
                 categories)
 
 setCheckboxes(categories, 
-            categoryCheckboxes, 
             "checkboxes")
 
 //Eventos en checkboxes
@@ -48,10 +40,9 @@ let divContainerCheck = padre.querySelectorAll('input')
 let newAOfChild = Array.from(divContainerCheck)
 let selectedCardsFiltered = []
 
-filteredByCheckbox(newAOfChild, 
-                allEvents, 
-                selectedCardsFiltered, 
-                "cards-group")
+// filterByCheckbox(newAOfChild, 
+//                 allEvents,  
+//                 "cards-group")
 
 
 
@@ -63,9 +54,10 @@ filteredByCheckbox(newAOfChild,
 //////////FUNCIONES//////////////////
 //Convierte cada objeto de un array en una card html
 
-function createCard(array, newArray)
+function createCard(array)
 {
   let newCard;
+  let newArray = []
   for(const element of array)
   {
       newCard = `<div
@@ -90,39 +82,37 @@ function createCard(array, newArray)
       </div>
       </div>`
       newArray.push(newCard)
-      console.log(element.id)
   }
   return newArray
 }
 
 //Invocación al método createdCard y seteo al cointainer html, sin comas.
 
-function setCards(array, newArray, htmlContainerId)
+function setCards(array, htmlContainerId)
 {
-    let cardList = createCard(array, newArray)
+    let cardList = createCard(array)
     let cardsGroup = document.getElementById(htmlContainerId)
     cardsGroup.innerHTML=cardList.join('')
-    // document.replaceChild(cardList, )
 }
 
 //Crea las listas de categorías según sean eventos pasados o futuros
 
 function filterCategories(eventArray, 
-                        allCategoriesArray, 
                         newCategoriesArray)
 {
+    let allCategories = []
     for(let event of eventArray)
     {
-        allCategoriesArray.push(event.category)
+        allCategories.push(event.category)
     }
 
-    allCategoriesArray.sort()
-
-    for(let i=0; i<allCategoriesArray.length; i++)
+    allCategories.sort()
+ 
+    for(let i=0; i<allCategories.length; i++)
     {
-        if(allCategoriesArray[i]!= allCategoriesArray[i+1])
+        if(allCategories[i]!= allCategories[i+1])
         {
-            newCategoriesArray.push(allCategoriesArray[i])
+            newCategoriesArray.push(allCategories[i])
         }
     }
     // console.log(allCategoriesArray)
@@ -131,9 +121,10 @@ function filterCategories(eventArray,
 
 //Convierte cada objeto de un array en una checkboxes html
 
-function createCheckbox(array, newArray)
+function createCheckbox(array)
 {
   let newCheckbox;
+  let newArray = []
   for(const element of array)
   {
       newCheckbox = `<label for="${element}" class="mx-2">
@@ -147,9 +138,10 @@ function createCheckbox(array, newArray)
 
 //Invocación al método createdCheckboxes y seteo al cointainer html, sin comas.
 
-function setCheckboxes(array, newArray, htmlContainerId)
+function setCheckboxes(array, htmlContainerId)
 {
-    let cardList = createCheckbox(array, newArray)
+    let cardList = createCheckbox(array)
+    console.log(cardList)
     let checkGroup = document.getElementById(htmlContainerId)
     checkGroup.innerHTML=cardList.join('')
 }
@@ -157,92 +149,76 @@ function setCheckboxes(array, newArray, htmlContainerId)
 // Eventos en checkboxes: previo, capturo el container de los checkboxes, para luego a los checkboxes y los convierto en un array. 
 // En la función, por cada elemento este nuevo array escucho el evento "change". Si el evento ocurre, guardo en una variable un array resultante de filtrar la lista original de eventos, siempre que la categoría del evento sea igual al id del elemento que estoy iterando. Finalmente, invoco el método setCards.
 
-function filteredByCheckbox(elementByListener, 
-                            originalEvents, resultedCardsList, htmlContainerId)
-{
-    elementByListener.forEach(element =>
-    {
-        element.addEventListener("change", ()=>
-        {
-            let selectedCards
-            if(element.checked)
-            {
-                selectedCards = originalEvents.filter(event => event.category == element.id)
-                setCards(selectedCards, 
-                        resultedCardsList, 
-                        htmlContainerId)
-            }
-        })
-    })   
-}
-console.log([document])
-
-// function filteredByCheckbox(elementByListener, 
-//     originalEvents, resultedCardsList, htmlContainerId)
+// function filterByCheckbox(elementByListener, 
+//                             originalEvents, htmlContainerId)
 // {
-// let checkedBox=[]
-// let i = 0
 //     elementByListener.forEach(element =>
 //     {
-//         console.log(elementByListener[i])
 //         element.addEventListener("change", ()=>
 //         {
-//             checkedBox = elementByListener.filter( box => box.checked)
-//             console.log(checkedBox)
 //             let selectedCards
-//             // if(element.checked)
-//             // {
-//             selectedCards = originalEvents.filter(event => event.category == checkedBox[i].id)
-//             setCards(selectedCards, 
-//             resultedCardsList, 
-//             htmlContainerId)
-//             i++
-//             // }
-//             // else
-//             // {
-
-//             // }
+//             if(element.checked)
+//             {
+//                 selectedCards = originalEvents.filter(event => event.category == element.id)
+//                 setCards(selectedCards,  
+//                         htmlContainerId)
+//             }
 //         })
-
-//     })
+//     })   
 // }
 
+function clasificPorCheckbox(array)
+{
+    let checkboxes = document.querySelectorAll("input[type='checkbox']")
+    console.log(checkboxes)
+    let checkboxList = Array.from(checkboxes)
+    console.log(checkboxList)
+    let chequeados = checkboxList.filter(element => element.checked)
+    console.log(chequeados)
+    let mapeado = chequeados.map(element => element.id.toLowerCase())
+    console.log(mapeado)
+    let eventosSeleccionados = array.filter(element => mapeado.includes(element.category.toLowerCase()))
+    console.log(eventosSeleccionados)
+    return eventosSeleccionados
+}
+
+let elementByListener = document.getElementById("checkboxes")
+
+elementByListener.addEventListener("change", ()=>{
+    let eventos = clasificPorCheckbox(allEvents)
+    console.log(eventos)
+    setCards(eventos, "cards-group")
+})
 
 //Evento en renglón de búsqueda
 let formSearch = document.querySelector('input[type="search"]')
 let button = document.querySelector('button[type="submit"]')
-let selectedByInput = []
 let filtrados = []
-let includes
 
-formSearch.addEventListener("keyup", ()=>
-{
+console.log(formSearch)
+let selectedBySearch = [] //Array de eventos que coinciden con la búsqueda.
+function filtrarPorTexto(array, text){
+    let arrayFiltrado = array.filter(elemento => elemento.name.toLowerCase().includes(text.toLowerCase()))
+    return arrayFiltrado
+}
+
+formSearch.addEventListener("keyup", ()=>{
     
-    for(let i=0; i<=allEvents.length; i++)
+    let arrayFiltrado = filtrarPorTexto(allEvents, formSearch.value)
+    console.log(arrayFiltrado)
+    button.addEventListener("mousedown", ()=>
     {
-        let search = formSearch.value.toLowerCase() 
-
-        console.log(search)
-
-        let eventName = allEvents[i].name.toLowerCase()
-        includes = eventName.includes(search)
-        if(includes)
-        {
-            selectedByInput.push(allEvents[i])
-            console.log(selectedByInput)
-        
-        console.log(includes)
-        return selectedByInput
-        }
-    }
+        let newArray = []
+        let cardList = createCard(arrayFiltrado, newArray)
+        let cardsGroup = document.getElementById("cards-group")
+        cardsGroup.innerHTML=cardList.join('')
+    })
 })
 
-button.addEventListener("mousedown", ()=>
-{
-    setCards(selectedByInput, 
-            filtrados, 
-            "cards-group")
-})
+//Renglón búsqueda
+function searchByTxt(){
+    
+}
 
 
 

@@ -3,7 +3,6 @@ let pastCategories=[]
 let pastChackboxes=[]
 
 setCards(pastEvents, 
-        pastEventsCards, 
         "cards-group")
 
 filterCategories(pastEvents, 

@@ -12,10 +12,11 @@ let containerCard = document.getElementById("tarjeta")
             <h1>${eventById.name}</h1>
             <p>${eventById.description}</p>
             <div class="details d-flex flex-wrap justify-content-between">
+                <p>Date: <span class="fw-bold">${eventById.date}</span></p>
                 <p>Place: <span class="fw-bold">${eventById.place}</span></p>
                 <p>Capacity: <span class="fw-bold">${eventById.capacity}</span></p>
-                <p>Capacity: <span class="fw-bold">${eventById.assistance}</span></p>
-                <p>Capacity: <span class="fw-bold">${eventById.price}</span></p>
+                <p>Asistance: <span class="fw-bold">${eventById.assistance}</span></p>
+                <p>Price: <span class="fw-bold">$ ${eventById.price}</span></p>
             </div>
         </div>
         `

@@ -175,6 +175,9 @@ th:not(th[colspan="3"]) {
     font-weight: 600;
 }
 
+.tarjeta{
+}
+
 .figure-detail {
     height: 300px;
     background-image: url(./assets/Costume_Party.jpg);
@@ -204,8 +207,14 @@ th:not(th[colspan="3"]) {
     .tarjeta {
         width: 70% !important;
         max-width: 600px;
-        border: 1px solid var(--hard-color);
+        background-color: var(--soft-color);
+        box-shadow: var(--shadow-gral);
+        /* border: 1px solid var(--hard-color); */
         height: 100%;
+    }
+
+    .figure-detail {
+        box-shadow: none;
     }
 
     .figure-detail,

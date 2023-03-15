@@ -2,8 +2,7 @@ let allCategoriesByUpcoming=[]
 let upcomingCategories=[]
 let upcomingCheckboxes=[]
 
-setCards(upcomingEvents, 
-        upcomingEventsCards, 
+setCards(upcomingEvents,
         "cards-group")
 
 filterCategories(upcomingEvents, 
