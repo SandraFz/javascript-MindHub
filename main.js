@@ -1,125 +1,119 @@
-let currentDate = data.currentDate;
+///// VARIABLES /////
 
-let allEvents = data.events;
-let allEventsCards = [];
+let url = "https://mindhub-xj03.onrender.com/api/amazing"
+let dataBase
+let events
+let formSearch = document.querySelector('input[type="search"]')
+let boxContainer = document.getElementById("checkboxes")
+let searchButton = document.querySelector('button[type="submit"]')
 
-let upcomingEvents = [];
-let pastEvents = [];
-let allCategoriesByEvent=[]
-let categories=[]
-let categoryCheckboxes=[]
 
-//Clasifica los eventos en futuro y pasado
+///// INVOCACIONES /////
 
-for(const eventItem of allEvents)
+startHome()
+
+///// FUNCIONES ASYNC /////
+
+async function startHome()
 {
-    if( eventItem.date >= currentDate)
+    try
     {
-        upcomingEvents.push(eventItem)
+        const res = await fetch(url)
+        dataBase = await res.json()
+        events = dataBase.events
+ 
+        // Invocaciones
+
+        setHtml(createCard(events), "cards-group")
+
+        let boxList = createCheckbox(filterCategories(events))
+        setHtml(boxList, "checkboxes")
+
+        //Eventos
+
+        boxContainer.addEventListener("change", ()=>{
+            crossFilter(events, formSearch.value)
+        })
+
+        // formSearch.addEventListener("keyup", ()=>{
+        //     crossFilter(events, formSearch.value)
+        // })
+
+        searchButton.addEventListener("mousedown", ()=>{
+            crossFilter(events, formSearch.value)
+        })
     }
-    else 
+    catch(error){console.log(error)}
+}
+
+///// FUNCIONES SINCRÓNICAS /////
+
+// Inyecta los datos en el elemento card html
+function createCard(eventArray)
+{
+    let newCard;
+    let newArray = []
+    for(const element of eventArray)
     {
-        pastEvents.push(eventItem)
+        newCard = `<div
+        class="d-flex flex-column align-items-center justify-content-between p-3 w-100 p-1 rounded-2 content-card-group">
+        <figure style="background-image: url(${element.image})" class="figure-card figure-card1 rounded-top rounded-end mt-1">
+        </figure>
+        <h3>
+            ${element.name}
+        </h3>
+        <p>
+        ${element.description}
+        </p>
+        <div class="d-flex justify-content-between align-items-center g-5 w-100 button-card-group">
+
+            <small>
+                Price $${element.price}
+            </small>
+
+            <a href="./details.html?id=${element._id}" class="btn p-1">
+                more...
+            </a>
+        </div>
+        </div>`
+        newArray.push(newCard)
     }
+    return newArray
 }
-console.log(upcomingEvents)
 
-setCards(allEvents, 
-        "cards-group")
+// Envía los elementos html creados (cards o checkboxes) a sus contenedores
 
-filterCategories(allEvents, 
-                categories)
-
-setCheckboxes(categories, 
-            "checkboxes")
-
-//Eventos en checkboxes
-
-let padre = document.getElementById("checkboxes")
-let divContainerCheck = padre.querySelectorAll('input')
-let newAOfChild = Array.from(divContainerCheck)
-let selectedCardsFiltered = []
-
-// filterByCheckbox(newAOfChild, 
-//                 allEvents,  
-//                 "cards-group")
-
-
-
-
-
-
-
-
-//////////FUNCIONES//////////////////
-//Convierte cada objeto de un array en una card html
-
-function createCard(array)
+function setHtml(htmlList, htmlContainerId)
 {
-  let newCard;
-  let newArray = []
-  for(const element of array)
-  {
-      newCard = `<div
-      class="d-flex flex-column align-items-center justify-content-between p-3 w-100 p-1 rounded-2 content-card-group">
-      <figure style="background-image: url(${element.image})" class="figure-card figure-card1 rounded-top rounded-end mt-1">
-      </figure>
-      <h3>
-          ${element.name}
-      </h3>
-      <p>
-      ${element.description}
-      </p>
-      <div class="d-flex justify-content-between align-items-center g-5 w-100 button-card-group">
-
-          <small>
-          Price $${element.price}
-          </small>
-
-          <a href="./details.html?id=${element._id}" class="btn p-1">
-          more...
-          </a>
-      </div>
-      </div>`
-      newArray.push(newCard)
-  }
-  return newArray
+    let elementGroup = document.getElementById(htmlContainerId)
+    elementGroup.innerHTML=htmlList.join('')
 }
 
-//Invocación al método createdCard y seteo al cointainer html, sin comas.
+// Se crea un array con las categorías, sin repetir.
 
-function setCards(array, htmlContainerId)
-{
-    let cardList = createCard(array)
-    let cardsGroup = document.getElementById(htmlContainerId)
-    cardsGroup.innerHTML=cardList.join('')
-}
-
-//Crea las listas de categorías según sean eventos pasados o futuros
-
-function filterCategories(eventArray, 
-                        newCategoriesArray)
+function filterCategories(eventArray)
 {
     let allCategories = []
+    let filteredCategories = []
+
     for(let event of eventArray)
     {
         allCategories.push(event.category)
     }
 
     allCategories.sort()
- 
+
     for(let i=0; i<allCategories.length; i++)
     {
         if(allCategories[i]!= allCategories[i+1])
         {
-            newCategoriesArray.push(allCategories[i])
+            filteredCategories.push(allCategories[i])
         }
     }
-    // console.log(allCategoriesArray)
-    // console.log(newCategoriesArray)
+    return filteredCategories
 }
 
-//Convierte cada objeto de un array en una checkboxes html
+// Se inyecta los datos en el elemento html checkbox.
 
 function createCheckbox(array)
 {
@@ -136,91 +130,143 @@ function createCheckbox(array)
   return newArray
 }
 
-//Invocación al método createdCheckboxes y seteo al cointainer html, sin comas.
+// Se filtra las cards según los checbox selaccionados
 
-function setCheckboxes(array, htmlContainerId)
-{
-    let cardList = createCheckbox(array)
-    console.log(cardList)
-    let checkGroup = document.getElementById(htmlContainerId)
-    checkGroup.innerHTML=cardList.join('')
-}
-
-// Eventos en checkboxes: previo, capturo el container de los checkboxes, para luego a los checkboxes y los convierto en un array. 
-// En la función, por cada elemento este nuevo array escucho el evento "change". Si el evento ocurre, guardo en una variable un array resultante de filtrar la lista original de eventos, siempre que la categoría del evento sea igual al id del elemento que estoy iterando. Finalmente, invoco el método setCards.
-
-// function filterByCheckbox(elementByListener, 
-//                             originalEvents, htmlContainerId)
-// {
-//     elementByListener.forEach(element =>
-//     {
-//         element.addEventListener("change", ()=>
-//         {
-//             let selectedCards
-//             if(element.checked)
-//             {
-//                 selectedCards = originalEvents.filter(event => event.category == element.id)
-//                 setCards(selectedCards,  
-//                         htmlContainerId)
-//             }
-//         })
-//     })   
-// }
-
-function clasificPorCheckbox(array)
+function filterByCheckbox(array)
 {
     let checkboxes = document.querySelectorAll("input[type='checkbox']")
-    console.log(checkboxes)
     let checkboxList = Array.from(checkboxes)
-    console.log(checkboxList)
     let chequeados = checkboxList.filter(element => element.checked)
-    console.log(chequeados)
+    if(chequeados.length == 0){return array}
     let mapeado = chequeados.map(element => element.id.toLowerCase())
-    console.log(mapeado)
     let eventosSeleccionados = array.filter(element => mapeado.includes(element.category.toLowerCase()))
-    console.log(eventosSeleccionados)
     return eventosSeleccionados
 }
 
-let elementByListener = document.getElementById("checkboxes")
+// Se filtra las cards por el nombre en el input
 
-elementByListener.addEventListener("change", ()=>{
-    let eventos = clasificPorCheckbox(allEvents)
-    console.log(eventos)
-    setCards(eventos, "cards-group")
-})
-
-//Evento en renglón de búsqueda
-let formSearch = document.querySelector('input[type="search"]')
-let button = document.querySelector('button[type="submit"]')
-let filtrados = []
-
-console.log(formSearch)
-let selectedBySearch = [] //Array de eventos que coinciden con la búsqueda.
-function filtrarPorTexto(array, text){
+function searchByTxt(array, text){
     let arrayFiltrado = array.filter(elemento => elemento.name.toLowerCase().includes(text.toLowerCase()))
+    if(arrayFiltrado.length == 0){
+        alert("No hay coincidencias")
+        return
+    }
     return arrayFiltrado
 }
 
-formSearch.addEventListener("keyup", ()=>{
-    
-    let arrayFiltrado = filtrarPorTexto(allEvents, formSearch.value)
-    console.log(arrayFiltrado)
-    button.addEventListener("mousedown", ()=>
-    {
-        let newArray = []
-        let cardList = createCard(arrayFiltrado, newArray)
-        let cardsGroup = document.getElementById("cards-group")
-        cardsGroup.innerHTML=cardList.join('')
-    })
-})
+// Filtro cruzado
 
-//Renglón búsqueda
-function searchByTxt(){
-    
+function crossFilter(array, input){
+    let checkbox = filterByCheckbox(array)
+    let searchInput = searchByTxt(checkbox, input)
+
+    setHtml(createCard(searchInput), "cards-group")
 }
 
+// Clasificación de eventos según fecha
 
+function clasificarUpcomingEvents(eventArray, currentDate)
+{
+    let newArray = []
+    eventArray.forEach(element => 
+    {
+        if(element.date >= currentDate){
+            newArray.push(element)
+        }
+    })
+    return newArray
+}
+
+function clasificarPastEvents(eventArray, currentDate)
+{
+    let newArray = []
+    eventArray.forEach(element => 
+    {
+        if(element.date < currentDate){
+            newArray.push(element)
+        }
+    })
+    return newArray
+}
+
+// function clasificarEventos1(objeto, temporada)
+// {
+//     let newArray = []
+//     switch(temporada)
+//     {
+//         case "past":
+            
+//             for(const eventItem of objeto.events)
+//             {
+//                 if(eventItem.date < objeto.events.date)
+//                 {
+//                     return newArray.push(eventItem)
+//                 }
+//             }
+//             break
+//         case "upcoming":
+//             for(const eventItem of objeto.events)
+//             {
+//                 if(eventItem.date <= objeto.events.date)
+//                 {
+//                     return newArray.push(eventItem)
+//                 }
+//             }
+//             break
+//     }
+// }
+
+// function clasificarEventos2(objeto, temporada)
+// {
+//     let newArray = []
+//     for(const eventItem of objeto.events)
+//     {
+//         switch(temporada)
+//         {
+//             case "past":
+//                 if(eventItem.date < objeto.events.date)
+//                 { 
+//                     return newArray.push(eventItem)
+//                 }
+//                 break
+//             case "upcoming":
+//                 if(eventItem.date >= objeto.events.date)
+//                 {
+//                     return newArray.push(eventItem)
+//                 }
+//                 break
+//         }
+//     }
+// }
+
+// function clasificarEventos3(objeto, temporada)
+// {
+//     let newArray = []
+//     let pastEvents = []
+//     let upcomingEvents = []
+//     objeto.events.forEach(element => {
+//         switch(temporada)
+//         {
+//             case "past":
+//                 if(element.date < objeto.currentDate)
+//                 { 
+//                     pastEvents.push(element)
+//                     return pastEvents
+//                 }
+//                 break
+//             case "upcoming":
+//                 if(element.date >= objeto.currentDate)
+//                 {
+//                     upcomingEvents.push(element)
+//                     return upcomingEvents
+//                 }
+//                 break
+//         }
+//     });
+    // newArray = Math.max(pastEvents.length, upcomingEvents.length)
+    // console.log(newArray)
+    // return newArray
+// }
 
 
 

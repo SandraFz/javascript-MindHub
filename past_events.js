@@ -1,28 +1,25 @@
-let allCategoriesByPast=[]
-let pastCategories=[]
-let pastChackboxes=[]
+startPast()
 
-setCards(pastEvents, 
-        "cards-group")
+async function startPast()
+{
+        try
+        {
+                const res = await fetch(url)
+                dataBase = await res.json()
+                allEvents = dataBase.events
 
-filterCategories(pastEvents, 
-                allCategoriesByPast, 
-                pastCategories)
+                // Invocaciones
 
-setCheckboxes(pastCategories, 
-            pastChackboxes, 
-            "checkboxes")
+                events = clasificarPastEvents(allEvents, dataBase.currentDate)
+                // events = clasificarEventos3(dataBase, "upcoming")
 
-//Eventos en checkboxes
+                setHtml(createCard(events), "cards-group")
 
-let pastFather = document.getElementById("checkboxes")
-let pastContainerCheck = pastFather.querySelectorAll('input')
-let pastNewChild = Array.from(pastContainerCheck)
-let pastSelectedCardsFiltered = []
-
-console.log(upcomingEvents)
-
-filteredByCheckbox(pastNewChild, 
-                pastEvents, 
-                pastSelectedCardsFiltered, 
-                "cards-group")
+                let boxList = createCheckbox(filterCategories(events))
+                setHtml(boxList, "checkboxes")
+        }
+        catch(error)
+        {
+                console.log(error)
+        }
+}

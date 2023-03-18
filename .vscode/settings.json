@@ -1,4 +1,5 @@
 {
     "editor.suggest.showStatusBar": false,
-    "workbench.statusBar.visible": true
+    "workbench.statusBar.visible": true,
+    "liveServer.settings.port": 5501
 }

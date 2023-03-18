@@ -1,30 +1,41 @@
-let allCategoriesByUpcoming=[]
-let upcomingCategories=[]
-let upcomingCheckboxes=[]
+startUpcoming()
 
-setCards(upcomingEvents,
-        "cards-group")
+async function startUpcoming()
+{
+        try
+        {
+                const res = await fetch(url)
+                dataBase = await res.json()
+                allEvents = dataBase.events
 
-filterCategories(upcomingEvents, 
-                allCategoriesByUpcoming, 
-                upcomingCategories)
+                // Invocaciones
 
-setCheckboxes(upcomingCategories, 
-            upcomingCheckboxes, 
-            "checkboxes")
+                events = clasificarUpcomingEvents(allEvents, dataBase.currentDate)
+                // events = clasificarEventos3(dataBase, "upcoming")
 
-//Eventos en checkboxes
 
-let padreUpcoming = document.getElementById("checkboxes")
-let divContainerCheckUpcoming = padreUpcoming.querySelectorAll('input')
-let newAOfChildUpcoming = Array.from(divContainerCheckUpcoming)
-let selectedCardsFilteredUpcoming = []
+                setHtml(createCard(events), "cards-group")
 
-console.log(upcomingEvents)
+                let boxList = createCheckbox(filterCategories(events))
+                setHtml(boxList, "checkboxes")
 
-filteredByCheckbox(newAOfChildUpcoming, 
-                upcomingEvents, 
-                selectedCardsFilteredUpcoming, 
-                "cards-group")
+                // Eventos
 
+                // boxContainer.addEventListener("change", ()=>{
+                //         crossFilter(events, formSearch.value)
+                // })
+
+                // formSearch.addEventListener("keyup", ()=>{
+                //         crossFilter(events, formSearch.value)
+                // })
+
+                // searchButton.addEventListener("mousedown", ()=>{
+                //         crossFilter(events, formSearch.value)
+                //     })            
+        }
+        catch(error)
+        {
+                console.log(error)
+        }
+}
 
