@@ -71,7 +71,7 @@ function createCard(eventArray)
                 Price $${element.price}
             </small>
 
-            <a href="./details.html?id=${element._id}" class="btn p-1">
+            <a href="./pages/details.html?id=${element._id}" class="btn p-1">
                 more...
             </a>
         </div>
