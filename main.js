@@ -26,7 +26,7 @@ async function startHome()
 
         setHtml(createCard(events), "cards-group")
 
-        let boxList = createCheckbox(filterCategories(events))
+        let boxList = createCheckbox(definirCategorias(events))
         setHtml(boxList, "checkboxes")
 
         //Eventos
@@ -91,7 +91,7 @@ function setHtml(htmlList, htmlContainerId)
 
 // Se crea un array con las categorías, sin repetir.
 
-function filterCategories(eventArray)
+function definirCategorias(eventArray)
 {
     let allCategories = []
     let filteredCategories = []
