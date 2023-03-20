@@ -10,7 +10,8 @@ async function startStats()
         let dataBase = await res.json()
 
         setRowHightAndLow(dataBase.events, dataBase.currentDate, 3, 1)
-        generarEstadisticas(dataBase.events, dataBase.currentDate)
+        // generarEstadisticas(dataBase.events, dataBase.currentDate)
+        printMatriz(generarEstadisticas(clasificarPastEvents(dataBase.events, dataBase.currentDate)), 9)
     }
     catch(error)
     {
@@ -126,36 +127,85 @@ function sumarAll(total, num)
     return total
 }
 
-function generarEstadisticas(eventos, currentDate)
-{
-    let stats = {}
-    let pastEvents = clasificarPastEvents(eventos, currentDate)
-    // console.log(pastEvents)
-    let arrayDeListas = clasificarPorCategoría(pastEvents)
-    // console.log(arrayDeListas)
-    let totalSuma
+// function generarEstadisticas(eventos, currentDate)
+// {
+//     let stats = {}
+//     let pastEvents = clasificarPastEvents(eventos, currentDate)
+//     // console.log(pastEvents)
+//     let arrayDeListas = clasificarPorCategoría(pastEvents)
+//     // console.log(arrayDeListas)
+//     let totalSuma
 
-    for(let i=0; i<arrayDeListas.length; i++)
-    {
-        for(let j=0; j<arrayDeListas[i].length; j++)
-        {
-            // console.log(arrayDeListas[i][j])
-            // console.log(data.currentDate)
-            let attr = arrayDeListas[i][j].assistance
-            // console.log(typeof attr)
-            // arrayDeListas[i].forEach(element => {
-                let revenues = arrayDeListas[i][j].price * arrayDeListas[i][j].assistance
-                // totalSuma = arrayDeListas[i][j].assistance + arrayDeListas[i][j++].assistance
-                return revenues
-            // })
+//     for(let i=0; i<arrayDeListas.length; i++)
+//     {
+//         for(let j=0; j<arrayDeListas[i].length; j++)
+//         {
+//             // console.log(arrayDeListas[i][j])
+//             // console.log(data.currentDate)
+//             let attr = arrayDeListas[i][j].assistance
+//             // console.log(typeof attr)
+//             // arrayDeListas[i].forEach(element => {
+//                 let revenues = arrayDeListas[i][j].price * arrayDeListas[i][j].assistance
+//                 // totalSuma = arrayDeListas[i][j].assistance + arrayDeListas[i][j++].assistance
+//                 return revenues
+//             // })
             
-        }
-        console.log(revenues)
+//         }
+//         console.log(revenues)
 
         
 
+//     }
+// }
+
+
+function generarEstadisticas(eventosPorTemporadaFunction) // Por cada evento de cada categoría calculo las estadísticas, las agrego en arrays diferentes y las reduzco. Después les asigno a la propiedad correspondiente de un nuevo objeto, y cada objeto es pusheado a un nuevo array.
+{
+    let tempEvents = eventosPorTemporadaFunction
+    let arrayDeListas = clasificarPorCategoría(tempEvents)
+    let eventStats = []
+
+    for(let i=0; i<arrayDeListas.length; i++)
+    {
+        let category = {
+            categoryName:"",
+            revenues:0,
+            attendance:0
+        }
+        let revenues = []
+        let attendance = []
+        for(let j=0; j<arrayDeListas[i].length; j++)
+        {
+            let r = arrayDeListas[i][j].price * arrayDeListas[i][j].assistance
+            revenues.push(r)
+            let a = arrayDeListas[i][j].assistance / arrayDeListas[i][j].capacity*100
+            attendance.push(a)
+        }
+        category.categoryName = arrayDeListas[i][0].category
+        category.revenues = revenues.reduce((a,b)=>a+b)
+        category.attendance = ((attendance.reduce((a,b)=>a+b))/attendance.length).toFixed(2)
+        eventStats.push(category)
     }
+    return eventStats
 }
 
 
+function printMatriz(eventStats, i_row)
+{
+    let statsList = eventStats
+    for(let i=0; i<statsList.length; i++)
+    {
+        let row = []
+        console.log(statsList)
+        row.push(statsList[i].categoryName, statsList[i].revenues, `${statsList[i].attendance}%`)
+        console.log(row)
+        printTd1(i_row, 0, row) //Past: Row = row[0] 1 + encabezados 2*3 + primeraLínea 1 + upcoming * upcoming.lenght
+    }
+}
+
+// function printUpcomingEvents(eventosPorTemporadaFunction, i_row)
+// {
+//     let eventStats = generarEstadisticas(eventosPorTemporadaFunction)
+//     printMatriz(eventStats, i_row)
+// }
 
