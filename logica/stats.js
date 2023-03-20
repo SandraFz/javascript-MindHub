@@ -9,9 +9,8 @@ async function startStats()
         let res = await fetch(url)
         let dataBase = await res.json()
 
-        setRow(dataBase.events, dataBase.currentDate/*, "name", "assistance"*/)
-        generarEstadisticas(dataBase.events/*, data.currentDate*/)
-
+        setRowHightAndLow(dataBase.events, dataBase.currentDate, 3, 1)
+        generarEstadisticas(dataBase.events, dataBase.currentDate)
     }
     catch(error)
     {
@@ -42,20 +41,19 @@ function clasificarPastEvents(eventArray, currentDate) //Clasifico los eventos p
 //     return highestAssitance.name
 // }
 
-function getHighAndLowStates(events/*, attr1, attr2*/, i) //Tomo el array de eventos, los ordeno de mayor a menor según el atributo y selecciono el índice que me interese.
+function calcularEstadisticasPorEvento(events/*, dividendo, divisor, i*/) //Tomo el array de eventos, los ordeno de mayor a menor según el atributo y selecciono el índice que me interese.
 {   
     let percentage = []
     events.map((element)=>
     {
-        let percentageInd 
-        element = [element.name, (element.assistance / element.capacity*100).toFixed(2), percentageInd] 
+        element = [element.name, element.capacity, element.assistance * element.price, parseFloat((element.assistance / element.capacity*100).toFixed(2))] 
         percentage.push(element)
-        console.log(element)
     } )
-    console.log(percentage)
-    let assitOrdenado = percentage.sort((a,b) => b - a)
-    let highestAssitance = assitOrdenado[i]
-    return highestAssitance
+    // console.log(percentage)
+    // let arrayOrdenado = percentage.sort((a,b) => b - a)
+    // let highestAssitance = assitOrdenado[i]
+    // return highestAssitance
+    return percentage
 }
 
 function printTd1 (row, i, txt) // Inserto una fila, tres columnas y agrego el TextNode que consiste en determinados elementos de un array.
@@ -84,23 +82,22 @@ function printTd1 (row, i, txt) // Inserto una fila, tres columnas y agrego el T
 //     printTd(2, 0, row)
 // }
 
-function setRow(eventArray, currentDate/*, attrName, attrStats*/) // Sólo para los stats hight y low, tomo los eventos clasificados, selecciono los atributos del índice indicado, los agrego an un array que es impreso en pantalla.
+function setRowHightAndLow(eventArray, currentDate, attr1, attr2) // Sólo para los stats hight y low, tomo los eventos clasificados, selecciono los atributos del índice indicado, los agrego an un array que es impreso en pantalla.
 {
     let row = []
     let events = Array.from(clasificarPastEvents(eventArray, currentDate))
-    let highAssistance = getHighAndLowStates(events, "assistance", "capacity", 0)
-    let lowAssisntance = getHighAndLowStates(events, "assistance", "capacity", events.length-1)
-    let hightCapacity = getHighAndLowStates(events, "capacity", "", 0)
-    let col1 = (highAssistance.assistance / highAssistance.capacity) * 100
-    let col2 = (lowAssisntance.assistance / lowAssisntance.capacity) * 100
-    console.log(col1.toFixed(2))
-    row.push(`${highAssistance.name}: ${col1.toFixed(2)}%`,
-            `${lowAssisntance.name}: ${col2.toFixed(2)}%`, 
-            `${hightCapacity.name}: `+ hightCapacity.capacity)
+    let highAssistance = calcularEstadisticasPorEvento(events, /*"assistance", "capacity", 0*/)
+    highAssistance.sort((a,b) => b[attr1]-a[attr1])
+    let col1 = highAssistance[0]
+    let col2 = highAssistance[highAssistance.length-1]
+    let col3 = (highAssistance.sort((a,b) => b[attr2] - a[attr2]))[0]
+    row.push(`${col1[0]}: ${col1[3]}%`,
+            `${col2[0]}: ${col2[3]}%`, 
+            `${col3[0]}: `+ col3[1])
     printTd1(2, 0, row)
 }
 
-clasificarPorCategoría(data.events)
+// clasificarPorCategoría(data.events)
 
 function clasificarPorCategoría(allEvents) // Genero una matriz de eventos según su categoría.
 {
@@ -133,19 +130,29 @@ function generarEstadisticas(eventos, currentDate)
 {
     let stats = {}
     let pastEvents = clasificarPastEvents(eventos, currentDate)
-    let arrayDeListas = clasificarPorCategoría(eventos)
+    // console.log(pastEvents)
+    let arrayDeListas = clasificarPorCategoría(pastEvents)
+    // console.log(arrayDeListas)
+    let totalSuma
 
     for(let i=0; i<arrayDeListas.length; i++)
     {
         for(let j=0; j<arrayDeListas[i].length; j++)
         {
-            let totalSuma
             // console.log(arrayDeListas[i][j])
             // console.log(data.currentDate)
             let attr = arrayDeListas[i][j].assistance
-            arrayDeListas[i].reduce(totalSuma,  (sumarAll(totalSuma, attr)))
+            // console.log(typeof attr)
+            // arrayDeListas[i].forEach(element => {
+                let revenues = arrayDeListas[i][j].price * arrayDeListas[i][j].assistance
+                // totalSuma = arrayDeListas[i][j].assistance + arrayDeListas[i][j++].assistance
+                return revenues
+            // })
+            
         }
-        console.log(totalSuma)
+        console.log(revenues)
+
+        
 
     }
 }
