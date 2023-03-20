@@ -12,6 +12,7 @@ async function startStats()
         setRowHightAndLow(dataBase.events, dataBase.currentDate, 3, 1)
         // generarEstadisticas(dataBase.events, dataBase.currentDate)
         printMatriz(generarEstadisticas(clasificarPastEvents(dataBase.events, dataBase.currentDate)), 9)
+        printMatriz(generarEstadisticas(clasificarUpcomingEvents(dataBase.events, dataBase.currentDate)), 6)
     }
     catch(error)
     {
@@ -176,10 +177,32 @@ function generarEstadisticas(eventosPorTemporadaFunction) // Por cada evento de 
         let attendance = []
         for(let j=0; j<arrayDeListas[i].length; j++)
         {
-            let r = arrayDeListas[i][j].price * arrayDeListas[i][j].assistance
-            revenues.push(r)
-            let a = arrayDeListas[i][j].assistance / arrayDeListas[i][j].capacity*100
+            // let r = arrayDeListas[i][j].price * arrayDeListas[i][j].assistance
+            // revenues.push(r)
+            // let a = arrayDeListas[i][j].assistance / arrayDeListas[i][j].capacity*100
+            // attendance.push(a)
+
+
+            
+
+            if(arrayDeListas[i][j].date < dataBase.currentDate)
+            {
+                let r = arrayDeListas[i][j].price * arrayDeListas[i][j].assistance
+                revenues.push(r)
+                let a = arrayDeListas[i][j].assistance / arrayDeListas[i][j].capacity*100
+                attendance.push(a)
+                console.log(attendance)
+            }
+            else
+            {
+                let r = arrayDeListas[i][j].price * arrayDeListas[i][j].estimate
+                revenues.push(r)
+                let a = arrayDeListas[i][j].estimate / arrayDeListas[i][j].capacity*100
             attendance.push(a)
+            // console.log(e)
+            }
+            // let a = arrayDeListas[i][j].assistance / arrayDeListas[i][j].capacity*100
+            // attendance.push(a)
         }
         category.categoryName = arrayDeListas[i][0].category
         category.revenues = revenues.reduce((a,b)=>a+b)
@@ -196,9 +219,9 @@ function printMatriz(eventStats, i_row)
     for(let i=0; i<statsList.length; i++)
     {
         let row = []
-        console.log(statsList)
+        // console.log(statsList)
         row.push(statsList[i].categoryName, statsList[i].revenues, `${statsList[i].attendance}%`)
-        console.log(row)
+        // console.log(row)
         printTd1(i_row, 0, row) //Past: Row = row[0] 1 + encabezados 2*3 + primeraLínea 1 + upcoming * upcoming.lenght
     }
 }
