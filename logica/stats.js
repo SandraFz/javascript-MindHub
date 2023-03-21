@@ -155,7 +155,6 @@ function printMatriz(eventStats, i_row)
           }
           return 0;
     })
-    console.log(statsList)
     for(let i=0; i<statsList.length; i++)
     {
         let row = []
