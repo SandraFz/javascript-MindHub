@@ -12,10 +12,9 @@ async function startStats()
         let upE = clasificarUpcomingEvents(dataBase.events, dataBase.currentDate)
         let catLength = definirCategorias(upE).length
 
-        setRowHightAndLow(dataBase.events, dataBase.currentDate, 1, 1)
+        setRowHightAndLow(dataBase.events, dataBase.currentDate, 3, 1)
         printMatriz(generarEstadisticas(clasificarPastEvents(dataBase.events, dataBase.currentDate), dataBase), 3+catLength)
         printMatriz(generarEstadisticas(clasificarUpcomingEvents(dataBase.events, dataBase.currentDate), dataBase), 6)
-
 
         // setRowHightAndLow(dataBase.events, dataBase.currentDate, 3, 1)
         // printMatriz(generarEstadisticas(clasificarPastEvents(dataBase.events, dataBase.currentDate), dataBase), 9)
@@ -64,8 +63,10 @@ function setRowHightAndLow(eventArray, currentDate, attr1, attr2) // Sólo para 
 {
     let row = []
     let events = Array.from(clasificarPastEvents(eventArray, currentDate))
+    console.log(events)
     let highAssistance = calcularEstadisticasPorEvento(events, /*"assistance", "capacity", 0*/)
     highAssistance.sort((a,b) => b[attr1]-a[attr1])
+    console.log(highAssistance)
     let col1 = highAssistance[0]
     let col2 = highAssistance[highAssistance.length-1]
     let col3 = (highAssistance.sort((a,b) => b[attr2] - a[attr2]))[0]
@@ -142,6 +143,17 @@ function generarEstadisticas(eventosPorTemporadaFunction, obj) // Por cada event
     }
     return eventStats
 }
+
+// function printMatriz(eventStats, i_row)
+// {
+//     let statsList = eventStats
+//     for(let i=0; i<statsList.length; i++)
+//     {
+//         let row = []
+//         row.push(statsList[i].categoryName, statsList[i].revenues, `${statsList[i].attendance}%`)
+//         printTd1(i_row, 0, row) //Past: i_row = 3 th + categoriasUpcoming.lenght
+//     }
+// }
 
 function printMatriz(eventStats, i_row)
 {
