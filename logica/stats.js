@@ -145,7 +145,17 @@ function generarEstadisticas(eventosPorTemporadaFunction, obj) // Por cada event
 
 function printMatriz(eventStats, i_row)
 {
-    let statsList = eventStats
+    let statsList = eventStats.sort((a, b)=> 
+    {
+        if (a.categoryName < b.categoryName) {
+            return 1;
+          }
+          if (a.categoryName > b.categoryName) {
+            return -1;
+          }
+          return 0;
+    })
+    console.log(statsList)
     for(let i=0; i<statsList.length; i++)
     {
         let row = []
