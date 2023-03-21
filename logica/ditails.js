@@ -19,6 +19,13 @@ try
 catch(error)
     {
         console.log(error)
+        const res = await fetch("../service/bd.json")
+
+    let dataBase = await res.json()
+    let allEvents = dataBase.events
+
+    const eventById = allEvents.find(a => a._id == id)
+    createDetailCard(eventById)
     }
 }
 

@@ -1,3 +1,7 @@
+// let boxContainer = document.getElementById("checkboxes")
+// let searchButton = document.querySelector('button[type="submit"]')
+
+
 startPast()
 
 async function startPast()
@@ -11,15 +15,47 @@ async function startPast()
                 // Invocaciones
 
                 events = clasificarPastEvents(allEvents, dataBase.currentDate)
-                // events = clasificarEventos3(dataBase, "upcoming")
 
-                setHtml(createCard(events), "cards-group")
+                setHtml(createCard(events, ""), "cards-group")
 
                 let boxList = createCheckbox(filterCategories(events))
                 setHtml(boxList, "checkboxes")
+
+                //Eventos
+
+                boxContainer.addEventListener("change", ()=>{
+                crossFilter(events, formSearch.value, "")
+            })
+    
+                searchButton.addEventListener("mousedown", ()=>{
+                crossFilter(events, formSearch.value, "")
+            })
         }
         catch(error)
         {
                 console.log(error)
+                const res = await fetch("../service/bd.json")
+                dataBase = await res.json()
+                allEvents = dataBase.events
+
+                // Invocaciones
+
+                events = clasificarPastEvents(allEvents, dataBase.currentDate)
+
+                setHtml(createCard(events, ""), "cards-group")
+
+                let boxList = createCheckbox(definirCategorias(events))
+                setHtml(boxList, "checkboxes")
+
+                //Eventos
+
+                boxContainer.addEventListener("change", ()=>{
+                crossFilter(events, formSearch.value, "")
+            })
+    
+            searchButton.addEventListener("mousedown", ()=>{
+                crossFilter(events, formSearch.value, "")
+            })
+
         }
 }

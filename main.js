@@ -1,12 +1,12 @@
 ///// VARIABLES /////
 
 let url = "https://mindhub-xj03.onrender.com/api/amazing"
+let urlAlt = "./service/bd.json"
 let dataBase
 let events
 let formSearch = document.querySelector('input[type="search"]')
 let boxContainer = document.getElementById("checkboxes")
 let searchButton = document.querySelector('button[type="submit"]')
-
 
 ///// INVOCACIONES /////
 
@@ -24,7 +24,7 @@ async function startHome()
  
         // Invocaciones
 
-        setHtml(createCard(events), "cards-group")
+        setHtml(createCard(events, "/pages"), "cards-group")
 
         let boxList = createCheckbox(definirCategorias(events))
         setHtml(boxList, "checkboxes")
@@ -32,25 +32,44 @@ async function startHome()
         //Eventos
 
         boxContainer.addEventListener("change", ()=>{
-            crossFilter(events, formSearch.value)
+            crossFilter(events, formSearch.value, "/pages")
         })
-
-        // formSearch.addEventListener("keyup", ()=>{
-        //     crossFilter(events, formSearch.value)
-        // })
 
         searchButton.addEventListener("mousedown", ()=>{
-            crossFilter(events, formSearch.value)
+            crossFilter(events, formSearch.value, "./pages")
         })
     }
-    catch(error){console.log(error)}
+    catch(error){
+        console.log(error)
+        let res = await fetch(urlAlt)
+        dataBase = await res.json()
+        events = dataBase.events
+ 
+        // Invocaciones
+
+        setHtml(createCard(events, "/pages"), "cards-group")
+
+        let boxList = createCheckbox(definirCategorias(events))
+        setHtml(boxList, "checkboxes")
+
+        //Eventos
+
+        boxContainer.addEventListener("change", ()=>{
+            crossFilter(events, formSearch.value, "/pages")
+        })
+
+        searchButton.addEventListener("mousedown", ()=>{
+            crossFilter(events, formSearch.value, "/pages")
+        })
+    }
 }
 
 ///// FUNCIONES SINCRÓNICAS /////
 
 // Inyecta los datos en el elemento card html
-function createCard(eventArray)
+function createCard(eventArray, subdirec)
 {
+    
     let newCard;
     let newArray = []
     for(const element of eventArray)
@@ -71,13 +90,15 @@ function createCard(eventArray)
                 Price $${element.price}
             </small>
 
-            <a href="./pages/details.html?id=${element._id}" class="btn p-1">
+            <a href=".${subdirec}/details.html?id=${element._id}" class="btn p-1">
                 more...
             </a>
         </div>
         </div>`
         newArray.push(newCard)
     }
+    console.log(newArray)
+
     return newArray
 }
 
@@ -156,11 +177,11 @@ function searchByTxt(array, text){
 
 // Filtro cruzado
 
-function crossFilter(array, input){
+function crossFilter(array, input, subdirec){
     let checkbox = filterByCheckbox(array)
     let searchInput = searchByTxt(checkbox, input)
 
-    setHtml(createCard(searchInput), "cards-group")
+    setHtml(createCard(searchInput, subdirec), "cards-group")
 }
 
 // Clasificación de eventos según fecha
@@ -189,84 +210,7 @@ function clasificarPastEvents(eventArray, currentDate)
     return newArray
 }
 
-// function clasificarEventos1(objeto, temporada)
-// {
-//     let newArray = []
-//     switch(temporada)
-//     {
-//         case "past":
-            
-//             for(const eventItem of objeto.events)
-//             {
-//                 if(eventItem.date < objeto.events.date)
-//                 {
-//                     return newArray.push(eventItem)
-//                 }
-//             }
-//             break
-//         case "upcoming":
-//             for(const eventItem of objeto.events)
-//             {
-//                 if(eventItem.date <= objeto.events.date)
-//                 {
-//                     return newArray.push(eventItem)
-//                 }
-//             }
-//             break
-//     }
-// }
 
-// function clasificarEventos2(objeto, temporada)
-// {
-//     let newArray = []
-//     for(const eventItem of objeto.events)
-//     {
-//         switch(temporada)
-//         {
-//             case "past":
-//                 if(eventItem.date < objeto.events.date)
-//                 { 
-//                     return newArray.push(eventItem)
-//                 }
-//                 break
-//             case "upcoming":
-//                 if(eventItem.date >= objeto.events.date)
-//                 {
-//                     return newArray.push(eventItem)
-//                 }
-//                 break
-//         }
-//     }
-// }
-
-// function clasificarEventos3(objeto, temporada)
-// {
-//     let newArray = []
-//     let pastEvents = []
-//     let upcomingEvents = []
-//     objeto.events.forEach(element => {
-//         switch(temporada)
-//         {
-//             case "past":
-//                 if(element.date < objeto.currentDate)
-//                 { 
-//                     pastEvents.push(element)
-//                     return pastEvents
-//                 }
-//                 break
-//             case "upcoming":
-//                 if(element.date >= objeto.currentDate)
-//                 {
-//                     upcomingEvents.push(element)
-//                     return upcomingEvents
-//                 }
-//                 break
-//         }
-//     });
-    // newArray = Math.max(pastEvents.length, upcomingEvents.length)
-    // console.log(newArray)
-    // return newArray
-// }
 
 
 
