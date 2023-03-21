@@ -97,8 +97,6 @@ function createCard(eventArray, subdirec)
         </div>`
         newArray.push(newCard)
     }
-    console.log(newArray)
-
     return newArray
 }
 
@@ -210,7 +208,30 @@ function clasificarPastEvents(eventArray, currentDate)
     return newArray
 }
 
+// let lista = clasificarPorFecha(data.events)
+// console.log("Past Events:")
+// console.log(lista.pastEvents)
+// console.log("UpcomingEvents")
+// console.log(lista.upcomingEvents)
 
+// function clasificarPorFecha(allEvents)
+// {
+//     let pastEvents = []
+//     let upcomingEvents = []
+//     for(const eventItem of allEvents)
+// {
+//     if( eventItem.date >= allEvents.currentDate)
+//     {
+//         upcomingEvents.push(eventItem)
+//         return upcomingEvents
+//     }
+//     else 
+//     {
+//         pastEvents.push(eventItem)
+//         return pastEvents
+//     }
+// }
+// }
 
 
 

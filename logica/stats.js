@@ -9,9 +9,17 @@ async function startStats()
         let res = await fetch(url)
         let dataBase = await res.json()
 
-        setRowHightAndLow(dataBase.events, dataBase.currentDate, 3, 1)
-        printMatriz(generarEstadisticas(clasificarPastEvents(dataBase.events, dataBase.currentDate), dataBase), 9)
+        let upE = clasificarUpcomingEvents(dataBase.events, dataBase.currentDate)
+        let catLength = definirCategorias(upE).length
+
+        setRowHightAndLow(dataBase.events, dataBase.currentDate, 1, 1)
+        printMatriz(generarEstadisticas(clasificarPastEvents(dataBase.events, dataBase.currentDate), dataBase), 3+catLength)
         printMatriz(generarEstadisticas(clasificarUpcomingEvents(dataBase.events, dataBase.currentDate), dataBase), 6)
+
+
+        // setRowHightAndLow(dataBase.events, dataBase.currentDate, 3, 1)
+        // printMatriz(generarEstadisticas(clasificarPastEvents(dataBase.events, dataBase.currentDate), dataBase), 9)
+        // printMatriz(generarEstadisticas(clasificarUpcomingEvents(dataBase.events, dataBase.currentDate), dataBase), 6)
     }
     catch(error)
     {
@@ -19,25 +27,16 @@ async function startStats()
         let res = await fetch("../service/bd.json")
         let dataBase = await res.json()
 
+        let upE = clasificarUpcomingEvents(dataBase.events, dataBase.currentDate)
+        let catLength = definirCategorias(upE).length
+
         setRowHightAndLow(dataBase.events, dataBase.currentDate, 3, 1)
-        printMatriz(generarEstadisticas(clasificarPastEvents(dataBase.events, dataBase.currentDate), dataBase), 9)
+        printMatriz(generarEstadisticas(clasificarPastEvents(dataBase.events, dataBase.currentDate), dataBase), 3+catLength)
         printMatriz(generarEstadisticas(clasificarUpcomingEvents(dataBase.events, dataBase.currentDate), dataBase), 6)
     }
 }
 
 //FUNCIONES
-
-function clasificarPastEvents(eventArray, currentDate) //Clasifico los eventos pasados.
-{
-    let newArray = []
-    eventArray.forEach(element => 
-    {
-        if(element.date < currentDate){
-            newArray.push(element)
-        }
-    })
-    return newArray
-}
 
 function calcularEstadisticasPorEvento(events/*, dividendo, divisor, i*/) //Tomo el array de eventos, los ordeno de mayor a menor según el atributo y selecciono el índice que me interese.
 {   
@@ -94,7 +93,6 @@ function clasificarPorCategoría(allEvents) // Genero una matriz de eventos seg�
         }
         arrayDeListas.push(arrayDeCategorias)
     }
-        // console.log([arrayDeListas])
         return arrayDeListas
 }
 
@@ -128,7 +126,6 @@ function generarEstadisticas(eventosPorTemporadaFunction, obj) // Por cada event
                 revenues.push(r)
                 let a = arrayDeListas[i][j].assistance / arrayDeListas[i][j].capacity*100
                 attendance.push(a)
-                console.log(attendance)
             }
             else
             {
@@ -146,7 +143,6 @@ function generarEstadisticas(eventosPorTemporadaFunction, obj) // Por cada event
     return eventStats
 }
 
-
 function printMatriz(eventStats, i_row)
 {
     let statsList = eventStats
@@ -154,7 +150,7 @@ function printMatriz(eventStats, i_row)
     {
         let row = []
         row.push(statsList[i].categoryName, statsList[i].revenues, `${statsList[i].attendance}%`)
-        printTd1(i_row, 0, row) //Past: Row = row[0] 1 + encabezados 2*3 + primeraLínea 1 + upcoming * upcoming.lenght
+        printTd1(i_row, 0, row) //Past: i_row = 3 th + categoriasUpcoming.lenght
     }
 }
 
