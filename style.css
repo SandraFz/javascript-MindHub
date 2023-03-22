@@ -175,9 +175,6 @@ th:not(th[colspan="3"]) {
     font-weight: 600;
 }
 
-.tarjeta{
-}
-
 .figure-detail {
     height: 300px;
     background-image: url(./assets/Costume_Party.jpg);

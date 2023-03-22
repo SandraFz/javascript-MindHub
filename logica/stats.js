@@ -12,13 +12,10 @@ async function startStats()
         let upE = clasificarUpcomingEvents(dataBase.events, dataBase.currentDate)
         let catLength = definirCategorias(upE).length
 
-        setRowHightAndLow(dataBase.events, dataBase.currentDate, 3, 1)
+        setRowHightAndLow(dataBase.events, dataBase.currentDate)
         printMatriz(generarEstadisticas(clasificarPastEvents(dataBase.events, dataBase.currentDate), dataBase), 3+catLength)
         printMatriz(generarEstadisticas(clasificarUpcomingEvents(dataBase.events, dataBase.currentDate), dataBase), 6)
 
-        // setRowHightAndLow(dataBase.events, dataBase.currentDate, 3, 1)
-        // printMatriz(generarEstadisticas(clasificarPastEvents(dataBase.events, dataBase.currentDate), dataBase), 9)
-        // printMatriz(generarEstadisticas(clasificarUpcomingEvents(dataBase.events, dataBase.currentDate), dataBase), 6)
     }
     catch(error)
     {
@@ -37,13 +34,19 @@ async function startStats()
 
 //FUNCIONES
 
-function calcularEstadisticasPorEvento(events/*, dividendo, divisor, i*/) //Tomo el array de eventos, los ordeno de mayor a menor según el atributo y selecciono el índice que me interese.
+function calcularEstadisticasPorEvento(events) //Tomo el array de eventos, los ordeno de mayor a menor según el atributo y selecciono el índice que me interese.
 {   
     let percentage = []
+    
     events.map((element)=>
     {
-        element = [element.name, element.capacity, element.assistance * element.price, parseFloat((element.assistance / element.capacity*100).toFixed(2))] 
-        percentage.push(element)
+        let event = {
+            name : element.name,
+            capacity : element.capacity,
+            revenues : element.assistance * element.price,
+            assistPercentaje : parseFloat((element.assistance / element.capacity*100).toFixed(2))
+        }
+        percentage.push(event)
     } )
     return percentage
 }
@@ -59,20 +62,20 @@ function printTd1 (row, i, txt) // Inserto una fila, tres columnas y agrego el T
     col3.appendChild(document.createTextNode(txt[i+2]))
 }
 
-function setRowHightAndLow(eventArray, currentDate, attr1, attr2) // Sólo para los stats hight y low, tomo los eventos clasificados, selecciono los atributos del índice indicado, los agrego an un array que es impreso en pantalla.
+function setRowHightAndLow(eventArray, currentDate/*, attr1, attr2*/) // Sólo para los stats hight y low, tomo los eventos clasificados, selecciono los atributos del índice indicado, los agrego an un array que es impreso en pantalla.
 {
+
     let row = []
     let events = Array.from(clasificarPastEvents(eventArray, currentDate))
-    console.log(events)
     let highAssistance = calcularEstadisticasPorEvento(events, /*"assistance", "capacity", 0*/)
-    highAssistance.sort((a,b) => b[attr1]-a[attr1])
-    console.log(highAssistance)
+
+    highAssistance.sort((a,b) => {return b.assistPercentaje - a.assistPercentaje})
     let col1 = highAssistance[0]
     let col2 = highAssistance[highAssistance.length-1]
-    let col3 = (highAssistance.sort((a,b) => b[attr2] - a[attr2]))[0]
-    row.push(`${col1[0]}: ${col1[3]}%`,
-            `${col2[0]}: ${col2[3]}%`, 
-            `${col3[0]}: `+ col3[1])
+    let col3 = (highAssistance.sort((a,b) => b.capacity - a.capacity))[0]
+    row.push(`${col1.name}: ${col1.assistPercentaje}%`,
+            `${col2.name}: ${col2.assistPercentaje}%`, 
+            `${col3.name}: `+ col3.capacity)
     printTd1(2, 0, row)
 }
 
@@ -95,13 +98,6 @@ function clasificarPorCategoría(allEvents) // Genero una matriz de eventos seg�
         arrayDeListas.push(arrayDeCategorias)
     }
         return arrayDeListas
-}
-
-
-function sumarAll(total, num)
-{
-    total + num
-    return total
 }
 
 function generarEstadisticas(eventosPorTemporadaFunction, obj) // Por cada evento de cada categoría calculo las estadísticas, las agrego en arrays diferentes y las reduzco. Después les asigno a la propiedad correspondiente de un nuevo objeto, y cada objeto es pusheado a un nuevo array.
@@ -143,17 +139,6 @@ function generarEstadisticas(eventosPorTemporadaFunction, obj) // Por cada event
     }
     return eventStats
 }
-
-// function printMatriz(eventStats, i_row)
-// {
-//     let statsList = eventStats
-//     for(let i=0; i<statsList.length; i++)
-//     {
-//         let row = []
-//         row.push(statsList[i].categoryName, statsList[i].revenues, `${statsList[i].attendance}%`)
-//         printTd1(i_row, 0, row) //Past: i_row = 3 th + categoriasUpcoming.lenght
-//     }
-// }
 
 function printMatriz(eventStats, i_row)
 {

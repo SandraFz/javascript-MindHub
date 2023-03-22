@@ -69,7 +69,6 @@ async function startHome()
 // Inyecta los datos en el elemento card html
 function createCard(eventArray, subdirec)
 {
-    
     let newCard;
     let newArray = []
     for(const element of eventArray)
