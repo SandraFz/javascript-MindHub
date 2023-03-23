@@ -7,6 +7,8 @@ let events
 let formSearch = document.querySelector('input[type="search"]')
 let boxContainer = document.getElementById("checkboxes")
 let searchButton = document.querySelector('button[type="submit"]')
+let clearXButton = document.querySelector('#shadow-root') //search-clear
+console.log( clearXButton)
 
 ///// INVOCACIONES /////
 
@@ -165,6 +167,10 @@ function filterByCheckbox(array)
 
 function searchByTxt(array, text){
     let arrayFiltrado = array.filter(elemento => elemento.name.toLowerCase().includes(text.toLowerCase()))
+    // if(text == ""){
+    //     return array
+    // }
+    // else 
     if(arrayFiltrado.length == 0){
         alert("No hay coincidencias")
         return
