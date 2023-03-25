@@ -1,6 +1,8 @@
 const queryString = location.search
 const params = new URLSearchParams(queryString)
 const id = params.get("id")
+let containerCard = document.getElementById("tarjeta")
+
 
 startditails()
 
@@ -14,7 +16,7 @@ try
     let allEvents = dataBase.events
 
     const eventById = allEvents.find(a => a._id == id)
-    createDetailCard(eventById)
+    createDetailCard(eventById, dataBase.currentDate)
 }
 catch(error)
     {
@@ -31,10 +33,10 @@ catch(error)
 
 // FUNCIONES
  
-let containerCard = document.getElementById("tarjeta")
-
-function createDetailCard (event){
-
+function createDetailCard (event, currentDate)
+{
+    let assistance
+    event.date >= currentDate? assistance = "":assistance=`<p>Asistance: <span class="fw-bold">${event.assistance}</span></p>`
     containerCard.innerHTML = `
         <figure class="w-100 figure-detail" style="background-image:url(${event.image})">
 
@@ -46,7 +48,7 @@ function createDetailCard (event){
                 <p>Date: <span class="fw-bold">${event.date}</span></p>
                 <p>Place: <span class="fw-bold">${event.place}</span></p>
                 <p>Capacity: <span class="fw-bold">${event.capacity}</span></p>
-                <p>Asistance: <span class="fw-bold">${event.assistance}</span></p>
+                ${assistance}
                 <p>Price: <span class="fw-bold">$ ${event.price}</span></p>
             </div>
         </div>

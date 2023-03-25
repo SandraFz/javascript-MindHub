@@ -7,7 +7,7 @@ let events
 let formSearch = document.querySelector('input[type="search"]')
 let boxContainer = document.getElementById("checkboxes")
 let searchButton = document.querySelector('button[type="submit"]')
-let clearXButton = document.querySelector('#shadow-root') //search-clear
+let clearXButton = document.getElementById('#search-clear') //search-clear
 console.log( clearXButton)
 
 ///// INVOCACIONES /////
@@ -37,9 +37,23 @@ async function startHome()
             crossFilter(events, formSearch.value, "/pages")
         })
 
-        searchButton.addEventListener("mousedown", ()=>{
-            crossFilter(events, formSearch.value, "./pages")
+        formSearch.addEventListener("keyup", ()=>{
+            // crossFilter(events, formSearch.value, "/pages")
+            console.log("Funciona el change")
+
+            let txt = searchByTxt(events, formSearch.value)
+            setHtml(createCard(txt, "/pages"), "cards-group")
+
         })
+
+        formSearch.addEventListener("reset", ()=>{
+            // crossFilter(events, formSearch.value, "/pages")
+            console.log("Funciona el reset")
+        })
+
+        // searchButton.addEventListener("mousedown", ()=>{
+        //     crossFilter(events, formSearch.value, "./pages")
+        // })
     }
     catch(error){
         console.log(error)
@@ -56,13 +70,13 @@ async function startHome()
 
         //Eventos
 
-        boxContainer.addEventListener("change", ()=>{
+        boxContainer.addEventListener("changes", ()=>{
             crossFilter(events, formSearch.value, "/pages")
         })
 
-        searchButton.addEventListener("mousedown", ()=>{
-            crossFilter(events, formSearch.value, "/pages")
-        })
+    //     searchButton.addEventListener("mousedown", ()=>{
+    //         crossFilter(events, formSearch.value, "/pages")
+    //     })
     }
 }
 
@@ -167,10 +181,10 @@ function filterByCheckbox(array)
 
 function searchByTxt(array, text){
     let arrayFiltrado = array.filter(elemento => elemento.name.toLowerCase().includes(text.toLowerCase()))
-    // if(text == ""){
-    //     return array
-    // }
-    // else 
+    if(arrayFiltrado == ""){
+        return array
+    }
+    else 
     if(arrayFiltrado.length == 0){
         alert("No hay coincidencias")
         return
@@ -237,7 +251,3 @@ function clasificarPastEvents(eventArray, currentDate)
 //     }
 // }
 // }
-
-
-
-
