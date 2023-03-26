@@ -3,7 +3,6 @@ const params = new URLSearchParams(queryString)
 const id = params.get("id")
 let containerCard = document.getElementById("tarjeta")
 
-
 startditails()
 
 async function startditails()
@@ -36,20 +35,21 @@ catch(error)
 function createDetailCard (event, currentDate)
 {
     let assistance
-    event.date >= currentDate? assistance = "":assistance=`<p>Asistance: <span class="fw-bold">${event.assistance}</span></p>`
+
+    event.date >= currentDate? assistance = "":assistance=`<p class="m-1">Asistance: <span class="fw-bold">${event.assistance}</span></p>`
+    
     containerCard.innerHTML = `
         <figure class="w-100 figure-detail" style="background-image:url(${event.image})">
-
         </figure>
         <div class="w-100 d-flex flex-column align-items-center justify-content-center text-detail">
             <h1>${event.name}</h1>
             <p>${event.description}</p>
-            <div class="details d-flex flex-wrap justify-content-between">
-                <p>Date: <span class="fw-bold">${event.date}</span></p>
-                <p>Place: <span class="fw-bold">${event.place}</span></p>
-                <p>Capacity: <span class="fw-bold">${event.capacity}</span></p>
+            <div class="details d-flex flex-wrap justify-content-between gap-1">
+                <p class="m-1">Date: <span class="fw-bold">${event.date}</span></p>
+                <p class="m-1">Place: <span class="fw-bold">${event.place}</span></p>
+                <p class="m-1">Capacity: <span class="fw-bold">${event.capacity}</span></p>
                 ${assistance}
-                <p>Price: <span class="fw-bold">$ ${event.price}</span></p>
+                <p class="m-1">Price: <span class="fw-bold">$ ${event.price}</span></p>
             </div>
         </div>
         `

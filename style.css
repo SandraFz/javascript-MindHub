@@ -49,6 +49,10 @@ nav li {
     background-color: var(--soft-color) !important;
 }
 
+nav li:hover {
+    font-weight: bold;
+}
+
 nav a {
     color: var(--hard-color) !important;
 }
@@ -155,6 +159,10 @@ footer>h6 {
     height: auto;
 }
 
+table {
+    border: 2px solid var(--hard-color)!important;
+}
+
 .tr-header {
     background-color: var(--hard-color);
     color: var(--soft-color);
@@ -163,7 +171,7 @@ footer>h6 {
 tr,
 th,
 td {
-    border: 1px solid black;
+    border: 1px solid var(--hard-color)!important;
     padding: 8px;
 }
 

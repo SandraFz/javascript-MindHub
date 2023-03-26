@@ -33,17 +33,15 @@ async function startHome()
 
         //Eventos
 
-        boxContainer.addEventListener("change", ()=>{
-            crossFilter(events, formSearch.value, "/pages")
-        })
+        // boxContainer.addEventListener("change", ()=>{
+        //     crossFilter(events, formSearch.value, "/pages")
+        // })
 
         formSearch.addEventListener("keyup", ()=>{
             // crossFilter(events, formSearch.value, "/pages")
-            console.log("Funciona el change")
 
             let txt = searchByTxt(events, formSearch.value)
             setHtml(createCard(txt, "/pages"), "cards-group")
-
         })
 
         formSearch.addEventListener("reset", ()=>{
@@ -74,9 +72,9 @@ async function startHome()
             crossFilter(events, formSearch.value, "/pages")
         })
 
-    //     searchButton.addEventListener("mousedown", ()=>{
-    //         crossFilter(events, formSearch.value, "/pages")
-    //     })
+        searchButton.addEventListener("mousedown", ()=>{
+            crossFilter(events, formSearch.value, "/pages")
+        })
     }
 }
 
@@ -181,10 +179,10 @@ function filterByCheckbox(array)
 
 function searchByTxt(array, text){
     let arrayFiltrado = array.filter(elemento => elemento.name.toLowerCase().includes(text.toLowerCase()))
-    if(arrayFiltrado == ""){
-        return array
-    }
-    else 
+    // if(arrayFiltrado == ""){
+    //     return array
+    // }
+    // else 
     if(arrayFiltrado.length == 0){
         alert("No hay coincidencias")
         return

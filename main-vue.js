@@ -16,17 +16,17 @@ const app = createApp(
         },
         methods()
         {
-            async startHome(){
-                try{
-                    const res = await fetch("https://mindhub-xj03.onrender.com/api/amazing")
-                    const data =  await res.json()
-                    this.dataBase = "hola"
+            // async startHome(){
+            //     try{
+            //         const res = await fetch("https://mindhub-xj03.onrender.com/api/amazing")
+            //         const data =  await res.json()
+            //         this.dataBase = "hola"
                     
-                }
-                catch(error){
-                    console.log(error)
-                }
-            }
+            //     }
+            //     catch(error){
+            //         console.log(error)
+            //     }
+            // }
         }
 
     }
