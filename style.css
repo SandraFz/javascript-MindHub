@@ -69,9 +69,48 @@ h1 {
     border: 1px solid var(--inputs);
 }
 
-.div-search>button:hover {
+form{
+    position: relative;
+    display: flex;
+    width: 100%;
+    /* justify-content: center;
+    align-items: center; */
+}
+
+form>input{
+    border:1px solid var(--hard-color)!important;
+    border-radius: 5px;
+}
+
+form>input:focus{
+    border: 2px solid var(--soft-color);
+}
+
+.xButton{
+    border: none;
+    background-color: transparent;
+    display: none;
+    position: absolute;
+    top: 12px;
+    right: 30px;
+    padding: 1px 1px;
+}
+
+.div-search>button:hover :not(.xButton){
     background-color: var(--soft-color) !important;
     border-color: var(--hard-color);
+}
+
+#modal{
+    top:250px;
+}
+
+.modal-body>p{
+    font-size: large;
+}
+
+.modal-footer{
+    border: none;
 }
 
 .content-card-group {
@@ -118,7 +157,8 @@ h1 {
 }
 
 .button-card-group>a,
-input[type="submit"] {
+input[type="submit"],
+#m-button {
     background-color: var(--hard-color);
     color: var(--soft-color);
     width: 100px;
@@ -237,6 +277,10 @@ th:not(th[colspan="3"]) {
     .checkboxes {
         width: 70% !important;
         margin: 1rem auto;
+    }
+
+    form{
+        width: 25%;
     }
 }
 

@@ -21,15 +21,30 @@ async function startUpcoming()
 
                 boxContainer.addEventListener("change", ()=>{
                         crossFilter(events, formSearch.value, "")
-                })
-
-                // formSearch.addEventListener("keyup", ()=>{
-                //         crossFilter(events, formSearch.value)
-                // })
-
-                searchButton.addEventListener("mousedown", ()=>{
+                    })
+            
+                formSearch.addEventListener("keyup", ()=>{
                         crossFilter(events, formSearch.value, "")
-                    })            
+                
+                        let txt = searchByTxt(events, formSearch.value)
+                        setHtml(createCard(txt, ""), "cards-group")
+                })
+        
+                formSearch.addEventListener("reset", (e)=>{
+                        crossFilter(events, formSearch.value, "")
+                        console.log("Funciona el reset!")
+                })
+        
+        
+                modalButton.addEventListener("click", ()=>{
+                        closeModal()
+                        crossFilter(events, formSearch.value, "")
+                })
+        
+                xButton.addEventListener("click", ()=>{
+                        formSearch.value=""
+                        crossFilter(events, formSearch.value, "")
+                })           
         }
         catch(error)
         {
@@ -51,15 +66,30 @@ async function startUpcoming()
                 
                 boxContainer.addEventListener("change", ()=>{
                         crossFilter(events, formSearch.value, "")
-                })
-
-                // formSearch.addEventListener("keyup", ()=>{
-                //         crossFilter(events, formSearch.value)
-                // })
-
-                searchButton.addEventListener("mousedown", ()=>{
+                    })
+            
+                formSearch.addEventListener("keyup", ()=>{
                         crossFilter(events, formSearch.value, "")
-                    })       
+                
+                        let txt = searchByTxt(events, formSearch.value)
+                        setHtml(createCard(txt, ""), "cards-group")
+                })
+        
+                formSearch.addEventListener("reset", (e)=>{
+                        crossFilter(events, formSearch.value, "")
+                        console.log("Funciona el reset!")
+                })
+        
+        
+                modalButton.addEventListener("click", ()=>{
+                        closeModal()
+                        crossFilter(events, formSearch.value, "")
+                })
+        
+                xButton.addEventListener("click", ()=>{
+                        formSearch.value=""
+                        crossFilter(events, formSearch.value, "")
+                })              
         }
 }
 

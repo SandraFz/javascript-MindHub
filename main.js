@@ -5,10 +5,10 @@ let urlAlt = "./service/bd.json"
 let dataBase
 let events
 let formSearch = document.querySelector('input[type="text"]')
-// let formSearch = document.querySelector('input[type="search"]')
 let boxContainer = document.getElementById("checkboxes")
-let searchButton = document.querySelector('button[type="submit"]')
-let clearXButton = document.getElementById('#search-clear') //search-clear
+let modal = document.getElementById('modal')
+let modalButton = document.querySelector("#m-button")
+let xButton = document.querySelector("button.xButton")
 
 ///// INVOCACIONES /////
 
@@ -39,18 +39,19 @@ async function startHome()
 
         formSearch.addEventListener("keyup", ()=>{
             crossFilter(events, formSearch.value, "/pages")
-
             let txt = searchByTxt(events, formSearch.value)
             setHtml(createCard(txt, "/pages"), "cards-group")
         })
 
-        formSearch.addEventListener("reset", (e)=>{
+        modalButton.addEventListener("click", ()=>{
+            closeModal()
             crossFilter(events, formSearch.value, "/pages")
-            console.log("Funciona el reset!")
         })
 
-        searchButton.addEventListener("mousedown", ()=>{
-            crossFilter(events, formSearch.value, "./pages")
+        xButton.addEventListener("click", ()=>{
+            formSearch.value=""
+            crossFilter(events, formSearch.value, "/pages")
+    
         })
     }
     catch(error){
@@ -68,12 +69,25 @@ async function startHome()
 
         //Eventos
 
-        boxContainer.addEventListener("changes", ()=>{
+        boxContainer.addEventListener("change", ()=>{
             crossFilter(events, formSearch.value, "/pages")
         })
 
-        searchButton.addEventListener("mousedown", ()=>{
+        formSearch.addEventListener("keyup", ()=>{
             crossFilter(events, formSearch.value, "/pages")
+            let txt = searchByTxt(events, formSearch.value)
+            setHtml(createCard(txt, "/pages"), "cards-group")
+        })
+
+        modalButton.addEventListener("click", ()=>{
+            closeModal()
+            crossFilter(events, formSearch.value, "/pages")
+        })
+
+        xButton.addEventListener("click", ()=>{
+            formSearch.value=""
+            crossFilter(events, formSearch.value, "/pages")
+    
         })
     }
 }
@@ -85,6 +99,7 @@ function createCard(eventArray, subdirec)
 {
     let newCard;
     let newArray = []
+    
     for(const element of eventArray)
     {
         newCard = `<div
@@ -179,15 +194,24 @@ function filterByCheckbox(array)
 
 function searchByTxt(array, text){
     let arrayFiltrado = array.filter(elemento => elemento.name.toLowerCase().includes(text.toLowerCase()))
-    // if(arrayFiltrado == ""){
-    //     return array
-    // }
-    // else 
+    xButton.style.display='block'
+
     if(arrayFiltrado.length == 0){
-        alert("No hay coincidencias")
+        modal.style.display='block'
         return
     }
     return arrayFiltrado
+}
+
+function closeModal(){
+    modal.style.display="none"
+    formSearch.value=""
+}
+
+function closeX(){
+    if(formSearch.value==""){
+        xButton.style.display='none'
+    }
 }
 
 // Filtro cruzado
@@ -195,8 +219,8 @@ function searchByTxt(array, text){
 function crossFilter(array, input, subdirec){
     let checkbox = filterByCheckbox(array)
     let searchInput = searchByTxt(checkbox, input)
-
     setHtml(createCard(searchInput, subdirec), "cards-group")
+    closeX()
 }
 
 // Clasificación de eventos según fecha
@@ -224,28 +248,3 @@ function clasificarPastEvents(eventArray, currentDate)
     })
     return newArray
 }
-
-// let lista = clasificarPorFecha(data.events)
-// console.log("Past Events:")
-// console.log(lista.pastEvents)
-// console.log("UpcomingEvents")
-// console.log(lista.upcomingEvents)
-
-// function clasificarPorFecha(allEvents)
-// {
-//     let pastEvents = []
-//     let upcomingEvents = []
-//     for(const eventItem of allEvents)
-// {
-//     if( eventItem.date >= allEvents.currentDate)
-//     {
-//         upcomingEvents.push(eventItem)
-//         return upcomingEvents
-//     }
-//     else 
-//     {
-//         pastEvents.push(eventItem)
-//         return pastEvents
-//     }
-// }
-// }
