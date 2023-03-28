@@ -4,11 +4,11 @@ let url = "https://mindhub-xj03.onrender.com/api/amazing"
 let urlAlt = "./service/bd.json"
 let dataBase
 let events
-let formSearch = document.querySelector('input[type="search"]')
+let formSearch = document.querySelector('input[type="text"]')
+// let formSearch = document.querySelector('input[type="search"]')
 let boxContainer = document.getElementById("checkboxes")
 let searchButton = document.querySelector('button[type="submit"]')
 let clearXButton = document.getElementById('#search-clear') //search-clear
-console.log( clearXButton)
 
 ///// INVOCACIONES /////
 
@@ -33,25 +33,25 @@ async function startHome()
 
         //Eventos
 
-        // boxContainer.addEventListener("change", ()=>{
-        //     crossFilter(events, formSearch.value, "/pages")
-        // })
+        boxContainer.addEventListener("change", ()=>{
+            crossFilter(events, formSearch.value, "/pages")
+        })
 
         formSearch.addEventListener("keyup", ()=>{
-            // crossFilter(events, formSearch.value, "/pages")
+            crossFilter(events, formSearch.value, "/pages")
 
             let txt = searchByTxt(events, formSearch.value)
             setHtml(createCard(txt, "/pages"), "cards-group")
         })
 
-        formSearch.addEventListener("reset", ()=>{
-            // crossFilter(events, formSearch.value, "/pages")
-            console.log("Funciona el reset")
+        formSearch.addEventListener("reset", (e)=>{
+            crossFilter(events, formSearch.value, "/pages")
+            console.log("Funciona el reset!")
         })
 
-        // searchButton.addEventListener("mousedown", ()=>{
-        //     crossFilter(events, formSearch.value, "./pages")
-        // })
+        searchButton.addEventListener("mousedown", ()=>{
+            crossFilter(events, formSearch.value, "./pages")
+        })
     }
     catch(error){
         console.log(error)
