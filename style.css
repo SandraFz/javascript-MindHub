@@ -27,6 +27,7 @@ header,
 header,
 nav {
     background-color: var(--soft-color);
+    z-index: 1;
 }
 
 main {
