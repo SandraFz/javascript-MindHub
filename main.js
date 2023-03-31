@@ -51,7 +51,6 @@ async function startHome()
         xButton.addEventListener("click", ()=>{
             formSearch.value=""
             crossFilter(events, formSearch.value, "/pages")
-    
         })
     }
     catch(error){
