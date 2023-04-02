@@ -9,6 +9,7 @@ let boxContainer = document.getElementById("checkboxes")
 let modal = document.getElementById('modal')
 let modalButton = document.querySelector("#m-button")
 let xButton = document.querySelector("button.xButton")
+let body = document.querySelector("body")
 
 ///// INVOCACIONES /////
 
@@ -52,6 +53,11 @@ async function startHome()
             formSearch.value=""
             crossFilter(events, formSearch.value, "/pages")
         })
+
+        document.addEventListener("scroll", ()=> {
+            showUpButton()
+        })
+
     }
     catch(error){
         console.log(error)
@@ -246,4 +252,16 @@ function clasificarPastEvents(eventArray, currentDate)
         }
     })
     return newArray
+}
+  
+function showUpButton(){
+    let button = document.getElementById("up")
+    if(/*document.body.scrollTop > 150 || */document.documentElement.scrollTop > 50)
+    {
+        button.style.display = "block"
+    }
+    else
+    {
+        button.style.display = "none"
+    }
 }
