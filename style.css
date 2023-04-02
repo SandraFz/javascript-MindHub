@@ -246,7 +246,7 @@ th:not(th[colspan="3"]) {
 }
 
 #up>img{
-    width: 40px;
+    width: 50px;
     position: fixed;
     bottom: 5rem;
     right: 0.5rem;
