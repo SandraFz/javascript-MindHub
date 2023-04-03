@@ -197,8 +197,10 @@ footer>h6 {
     font-weight: 600;
 }
 
-.contact-container-form {
+.contact-container-form,
+.detail-container-form {
     height: auto;
+    margin-bottom: 6rem;
 }
 
 table {
